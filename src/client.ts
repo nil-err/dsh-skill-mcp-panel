@@ -177,13 +177,37 @@ const cssEffects = "@keyframes skvFadeIn{from{opacity:0;transform:translateY(-4p
 // 不影响宿主自己的其它菜单；:has() 不可用时该规则失效，退化为原来的整屏上限。
 const cssChipRefresh = ".SKV_scopeBar{gap:4px;padding:2px 2px 6px}.SKV_groupBar{gap:5px;padding:2px}.SKV_groupItem{background:transparent;border:1px solid transparent;border-radius:8px;padding:6px 12px;font-size:13px;line-height:18px}.SKV_groupItem:hover{background:var(--dsw-alias-interactive-bg-hover);border-color:transparent;color:var(--dsw-alias-label-primary)}.SKV_groupItem[data-active=true]{background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 14%, transparent);border-color:transparent;font-weight:500}.SKV_categoryBar{gap:6px 8px}.SKV_categoryChip{background:transparent;border:1px solid transparent;border-radius:7px;padding:5px 12px;font-size:12px}.SKV_categoryChip:hover{background:var(--dsw-alias-interactive-bg-hover);border-color:transparent}.SKV_categoryChip[data-active=true]{background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 14%, transparent);border-color:transparent;font-weight:500}body:has(.SKV_scopeSelect[aria-expanded=true])>div[role=menu]{max-height:min(448px,calc(100vh - 24px))}";
 // 分组：对话框侧栏、分组横栏 chip（含启用/总数）与卡片上方的整组启停胶囊按钮（补齐 2.0.2 的 cssGroupDelete）
-const cssGroups = ".SKV_groupItemWrap{position:relative;display:inline-flex;align-items:center;gap:2px}.SKV_groupSideItemWrap{position:relative;display:flex;align-items:center;min-width:0}.SKV_groupSideItemWrap .SKV_groupSideItem{flex:1;min-width:0}.SKV_groupDelete{display:none;width:16px;height:16px;color:var(--dsw-alias-label-tertiary);font:inherit;font-size:12px;line-height:14px;cursor:pointer;background:0 0;border:none;border-radius:999px;padding:0;margin-left:2px;flex:none}.SKV_groupSideItemWrap:hover .SKV_groupDelete{display:inline-flex}.SKV_groupDelete:hover{color:var(--dsw-alias-state-error-primary);background:color-mix(in srgb, var(--dsw-alias-state-error-primary) 10%, transparent)}.SKV_groupDelete[data-confirm=true]{display:inline-flex;width:auto;height:18px;padding:0 7px;color:var(--dsw-alias-state-error-primary);background:color-mix(in srgb, var(--dsw-alias-state-error-primary) 10%, transparent)}.SKV_groupToggle{font:inherit;font-size:11px;line-height:16px;color:var(--dsw-alias-label-tertiary);font-variant-numeric:tabular-nums;white-space:nowrap;cursor:pointer;background:0 0;border:1px solid var(--dsw-alias-border-l2);border-radius:999px;padding:1px 7px;margin-left:2px;flex:none}.SKV_groupToggle:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}.SKV_groupToggle[data-on=true]{color:var(--dsw-alias-state-success-primary);border-color:color-mix(in srgb, var(--dsw-alias-state-success-primary) 40%, transparent)}.SKV_groupToggle:disabled{opacity:.6;cursor:not-allowed}.SKV_groupItem{display:inline-flex;align-items:center}.SKV_groupItemCount{color:var(--dsw-alias-label-tertiary);font-variant-numeric:tabular-nums;font-size:11px;line-height:15px;margin-left:4px}.SKV_groupItem[data-active=true] .SKV_groupItemCount{color:inherit}.SKV_groupBulkRow{display:flex;align-items:center;gap:8px;margin:0 0 8px}.SKV_pluginToggle{display:inline-flex;align-items:center;gap:6px;margin-left:auto;color:var(--dsw-alias-label-secondary);font-size:12px;line-height:18px;cursor:pointer;white-space:nowrap}.SKV_pluginToggle input{margin:0;accent-color:var(--dsw-alias-state-business-primary)}.SKV_pluginToggle:hover{color:var(--dsw-alias-label-primary)}.SKV_groupBulkBtn{font:inherit;font-size:12px;line-height:18px;color:var(--dsw-alias-state-business-primary);cursor:pointer;background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 10%, transparent);border:1px solid color-mix(in srgb, var(--dsw-alias-state-business-primary) 35%, transparent);border-radius:999px;padding:4px 14px;white-space:nowrap;flex:none}.SKV_groupBulkBtn:hover:not(:disabled){background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 16%, transparent)}.SKV_groupBulkBtn:disabled{cursor:default;opacity:.55}";
+const cssGroups = ".SKV_groupItemWrap{position:relative;display:inline-flex;align-items:center;gap:2px}.SKV_groupSideItemWrap{position:relative;display:flex;align-items:center;min-width:0}.SKV_groupSideItemWrap .SKV_groupSideItem{flex:1;min-width:0}.SKV_groupDelete{display:none;width:16px;height:16px;color:var(--dsw-alias-label-tertiary);font:inherit;font-size:12px;line-height:14px;cursor:pointer;background:0 0;border:none;border-radius:999px;padding:0;margin-left:2px;flex:none}.SKV_groupSideItemWrap:hover .SKV_groupDelete{display:inline-flex}.SKV_groupDelete:hover{color:var(--dsw-alias-state-error-primary);background:color-mix(in srgb, var(--dsw-alias-state-error-primary) 10%, transparent)}.SKV_groupDelete[data-confirm=true]{display:inline-flex;width:auto;height:18px;padding:0 7px;color:var(--dsw-alias-state-error-primary);background:color-mix(in srgb, var(--dsw-alias-state-error-primary) 10%, transparent)}.SKV_groupToggle{font:inherit;font-size:11px;line-height:16px;color:var(--dsw-alias-label-tertiary);font-variant-numeric:tabular-nums;white-space:nowrap;cursor:pointer;background:0 0;border:1px solid var(--dsw-alias-border-l2);border-radius:999px;padding:1px 7px;margin-left:2px;flex:none}.SKV_groupToggle:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}.SKV_groupToggle[data-on=true]{color:var(--dsw-alias-state-success-primary);border-color:color-mix(in srgb, var(--dsw-alias-state-success-primary) 40%, transparent)}.SKV_groupToggle:disabled{opacity:.6;cursor:not-allowed}.SKV_groupItem{display:inline-flex;align-items:center}.SKV_groupItemCount{color:var(--dsw-alias-label-tertiary);font-variant-numeric:tabular-nums;font-size:11px;line-height:15px;margin-left:4px}.SKV_groupItem[data-active=true] .SKV_groupItemCount{color:inherit}.SKV_groupItemHint{color:var(--dsw-alias-label-tertiary);font-size:10.5px;line-height:15px;margin-left:5px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.SKV_groupBulkRow{display:flex;align-items:center;gap:8px;margin:0 0 8px}.SKV_pluginToggle{display:inline-flex;align-items:center;gap:6px;margin-left:auto;color:var(--dsw-alias-label-secondary);font-size:12px;line-height:18px;cursor:pointer;white-space:nowrap}.SKV_pluginToggle input{margin:0;accent-color:var(--dsw-alias-state-business-primary)}.SKV_pluginToggle:hover{color:var(--dsw-alias-label-primary)}.SKV_groupBulkBtn{font:inherit;font-size:12px;line-height:18px;color:var(--dsw-alias-state-business-primary);cursor:pointer;background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 10%, transparent);border:1px solid color-mix(in srgb, var(--dsw-alias-state-business-primary) 35%, transparent);border-radius:999px;padding:4px 14px;white-space:nowrap;flex:none}.SKV_groupBulkBtn:hover:not(:disabled){background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 16%, transparent)}.SKV_groupBulkBtn:disabled{cursor:default;opacity:.55}";
 		// 三栏外壳（v2.1.6 重构）：左轨工作区 / 中栏「分组·来源」/ 右侧主区。
 		// 颜色一律走宿主 token（--dsw-alias-*）——设计稿只是深色示意，它的十六进制值
 		// 一个都不抄进来，面板才能跟着宿主的深/浅主题走。
 		// 主区单独一层滚动容器（.SKV_mainScroll），这样底部批量栏与顶部 Toast 能相对
 		// .SKV_mainCol 绝对定位、不随列表滚走。
-		const cssShell = ".SKV_page[data-tab=skills],.SKV_page[data-tab=mcp]{align-items:stretch;gap:12px;padding:18px 0 0;overflow:hidden}.SKV_page[data-tab=skills]>.SKV_pageTop,.SKV_page[data-tab=mcp]>.SKV_pageTop{padding:0 clamp(20px,3vw,40px)}.SKV_page[data-tab=skills]>.SKV_tabs,.SKV_page[data-tab=mcp]>.SKV_tabs{gap:22px;padding:0 clamp(20px,3vw,40px)}.SKV_page[data-tab=skills]>.SKV_pageTop,.SKV_page[data-tab=skills]>.SKV_tabs,.SKV_page[data-tab=mcp]>.SKV_pageTop,.SKV_page[data-tab=mcp]>.SKV_tabs{max-width:none;width:100%;box-sizing:border-box}.SKV_page[data-tab=skills]>*{max-width:none}.SKV_page[data-tab=mcp]>.MCP_section{box-sizing:border-box;width:100%;max-width:1040px;margin:0 auto;padding:0 clamp(20px,3vw,40px) 40px;flex:1;min-height:0;overflow-y:auto}@keyframes skvTabIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}.SKV_page[data-tab]>.SKV_section,.SKV_page[data-tab]>.MCP_section{animation:skvTabIn .2s cubic-bezier(.3,.8,.2,1)}"
+		// 三个页签共用同一套整宽外壳：页头与页签通栏、正文各自滚动。
+		//
+		// 为什么 discover 必须在这里显式列出：页面的默认样式是「窄列居中」
+		// （.SKV_page>* 有 max-width:760px 且 align-items:center），技能页与 MCP 页
+		// 早就用这条规则覆盖成通栏。发现页是新加的页签，漏了这条就退回到 760px
+		// 窄列——用户看到的现象是「点进发现技能，整个页面突然变窄变小」。
+		// 注意：这里必须给**每个**页签各生成一条带子选择器的规则。
+		// 早先写成 `TABS_FULL + ">.SKV_pageTop{...}"`，展开后是
+		//   .SKV_page[data-tab=skills],.SKV_page[data-tab=mcp],.SKV_page[data-tab=discover]>.SKV_pageTop
+		// —— 逗号只分隔选择器，`>` 只挂在最后一个上，于是技能页与 MCP 页的页头
+		// 拿不到通栏内边距，只有发现页有；三页切换时页头宽度/缩进不一致。
+		const TABS_FULL = ".SKV_page[data-tab=skills],.SKV_page[data-tab=mcp],.SKV_page[data-tab=discover]";
+		const eachTab = (child: string) =>
+			[".SKV_page[data-tab=skills]", ".SKV_page[data-tab=mcp]", ".SKV_page[data-tab=discover]"]
+				.map((tab) => tab + ">" + child)
+				.join(",");
+		const cssShell =
+			TABS_FULL + "{align-items:stretch;gap:12px;padding:18px 0 0;overflow:hidden}"
+			+ eachTab(".SKV_pageTop") + "{padding:0 clamp(20px,3vw,40px)}"
+			+ eachTab(".SKV_tabs") + "{gap:22px;padding:0 clamp(20px,3vw,40px)}"
+			+ eachTab(".SKV_pageTop") + "," + eachTab(".SKV_tabs") + "{max-width:none;width:100%;box-sizing:border-box}"
+			+ ".SKV_page[data-tab=skills]>*{max-width:none}"
+			+ ".SKV_page[data-tab=mcp]>.MCP_section,.SKV_page[data-tab=discover]>.DSC_section{box-sizing:border-box;width:100%;max-width:1040px;margin:0 auto;padding:0 clamp(20px,3vw,40px) 40px;flex:1;min-height:0;overflow-y:auto}"
+			+ "@keyframes skvTabIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}"
+			+ ".SKV_page[data-tab]>.SKV_section,.SKV_page[data-tab]>.MCP_section,.SKV_page[data-tab]>.DSC_section{animation:skvTabIn .2s cubic-bezier(.3,.8,.2,1)}"
 			// 页签下划线：不用边框色切换（会瞬移），改成一条从中间长出来的指示条。
 			+ ".SKV_tab{position:relative;padding:8px 2px 10px;font-size:13.5px;border-bottom-color:transparent!important}"
 			+ ".SKV_tab::after{content:\"\";position:absolute;left:2px;right:2px;bottom:-1px;height:2px;border-radius:2px;background:var(--dsw-alias-state-business-primary);transform:scaleX(0);transition:transform .28s cubic-bezier(.3,.8,.2,1)}"
@@ -304,14 +328,82 @@ const cssGroups = ".SKV_groupItemWrap{position:relative;display:inline-flex;alig
 			+ ".SKV_toastAction{flex:none;font:inherit;font-size:13px;line-height:20px;color:var(--dsw-alias-toast-label);background:color-mix(in srgb, var(--dsw-alias-toast-label) 14%, transparent);border:0;border-radius:6px;padding:3px 10px;cursor:pointer;transition:background-color .18s cubic-bezier(.3,.8,.2,1)}"
 			+ ".SKV_toastAction:hover{background:color-mix(in srgb, var(--dsw-alias-toast-label) 24%, transparent)}"
 			+ ".SKV_toastAction:focus-visible{outline:2px solid var(--dsw-alias-toast-label);outline-offset:1px}";
-			
-			
-			
-			
-			
-			
-			;
-		const css = cssPage + cssChrome + cssCards + cssAdd + cssScope + cssMigrate + cssCategory + cssTree + cssPanelIcon + cssTheme + cssEffects + cssChipRefresh + cssGroups + cssShell + cssRow ;
+
+		// ── 发现技能（DSC_ 前缀，与技能页样式互不影响）──────────────────────
+		const cssDiscover = ""
+			+ ".DSC_section{display:flex;flex-direction:column;gap:14px}"
+			+ ".DSC_head{display:flex;flex-direction:column;gap:4px}"
+			+ ".DSC_intro{color:var(--dsw-alias-label-secondary);margin:0;font-size:13px;line-height:20px}"
+			+ ".DSC_footer{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}"
+			+ ".DSC_subtabs{display:flex;align-items:center;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--dsw-alias-border-l2);padding-bottom:8px}"
+			+ ".DSC_subtab{font:inherit;font-size:13px;line-height:20px;color:var(--dsw-alias-label-secondary);cursor:pointer;background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:999px;padding:4px 14px;display:inline-flex;align-items:center;gap:6px}"
+			+ ".DSC_subtab:hover{color:var(--dsw-alias-label-primary)}"
+			+ ".DSC_subtab[data-active=true]{color:var(--dsw-alias-state-business-primary);border-color:var(--dsw-alias-state-business-primary);background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 12%, transparent)}"
+			+ ".DSC_subtab:focus-visible{outline:2px solid var(--dsw-alias-brand-primary);outline-offset:1px}"
+			+ ".DSC_toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}"
+			+ ".DSC_select{box-sizing:border-box;height:32px;font:inherit;font-size:13px;color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:8px;padding:0 8px}"
+			+ ".DSC_input{box-sizing:border-box;flex:1;min-width:180px;height:32px;font:inherit;font-size:13px;color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:8px;padding:0 10px}"
+			+ ".DSC_input:focus-visible,.DSC_select:focus-visible{border-color:var(--dsw-alias-state-business-primary);box-shadow:0 0 0 2px color-mix(in srgb, var(--dsw-alias-state-business-primary) 18%, transparent);outline:none}"
+			+ ".DSC_btn{font:inherit;font-size:12px;line-height:26px;height:28px;color:var(--dsw-alias-label-primary);cursor:pointer;background:0 0;border:1px solid var(--dsw-alias-border-l2);border-radius:14px;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;box-sizing:border-box}"
+			+ ".DSC_btn:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover-solid)}"
+			+ ".DSC_btn:disabled{cursor:default;opacity:.55}"
+			+ ".DSC_btn[data-primary=true]{color:var(--dsw-alias-state-business-primary);border-color:color-mix(in srgb, var(--dsw-alias-state-business-primary) 45%, transparent);background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 10%, transparent)}"
+			+ ".DSC_btn[data-danger=true]{color:var(--dsw-alias-state-error-primary)}"
+			+ ".DSC_repos{display:flex;flex-direction:column;gap:8px}"
+			+ ".DSC_repo{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-3);border-radius:10px;padding:8px 12px;display:flex;flex-direction:column;gap:8px}"
+			+ ".DSC_repoTop{display:flex;align-items:center;gap:8px;min-width:0}"
+			+ ".DSC_repoChevron{box-sizing:border-box;width:22px;height:22px;flex:none;font:inherit;font-size:14px;line-height:20px;color:var(--dsw-alias-label-secondary);background:0 0;border:1px solid var(--dsw-alias-border-l2);border-radius:6px;cursor:pointer;padding:0;display:inline-flex;align-items:center;justify-content:center}"
+			+ ".DSC_repoChevron:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}"
+			+ ".DSC_repoName{font-size:13px;font-weight:600;line-height:20px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:none;max-width:260px}"
+			+ ".DSC_repoCount{color:var(--dsw-alias-label-tertiary);font-size:12px;line-height:18px;font-variant-numeric:tabular-nums;flex:none}"
+			+ ".DSC_btnSm{font:inherit;font-size:11.5px;line-height:22px;height:24px;color:var(--dsw-alias-label-secondary);cursor:pointer;background:0 0;border:1px solid var(--dsw-alias-border-l2);border-radius:12px;padding:0 10px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;box-sizing:border-box;flex:none}"
+			+ ".DSC_btnSm:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover-solid);color:var(--dsw-alias-label-primary)}"
+			+ ".DSC_btnSm:disabled{cursor:default;opacity:.55}"
+			+ ".DSC_btnSm[data-danger=true]{color:var(--dsw-alias-state-error-primary)}"
+			+ ".DSC_mono{font-family:ui-monospace,SFMono-Regular,Consolas,Menlo,monospace;font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}"
+			+ ".DSC_skills{display:flex;flex-direction:column;gap:4px;max-height:420px;overflow-y:auto;scrollbar-width:thin}"
+			+ ".DSC_skill{display:flex;align-items:flex-start;gap:8px;padding:6px 2px;border-bottom:1px solid color-mix(in srgb, var(--dsw-alias-border-l2) 45%, transparent);min-width:0}"
+			+ ".DSC_skill:last-child{border-bottom:none}"
+			+ ".DSC_skillInfo{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}"
+			+ ".DSC_skillName{font-size:12.5px;line-height:18px;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}"
+			+ ".DSC_skillDesc{font-size:11.5px;line-height:16px;color:var(--dsw-alias-label-secondary);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:break-word}"
+			+ ".DSC_badge{flex:none;font-size:11px;line-height:16px;border-radius:5px;padding:1px 6px;background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-secondary);white-space:nowrap}"
+			+ ".DSC_badge[data-tone=ok]{color:var(--dsw-alias-state-success-primary);border:1px solid color-mix(in srgb, var(--dsw-alias-state-success-primary) 40%, transparent)}"
+			+ ".DSC_badge[data-tone=warn]{color:var(--dsw-alias-state-warning-primary);border:1px solid color-mix(in srgb, var(--dsw-alias-state-warning-primary) 40%, transparent)}"
+			+ ".DSC_badge[data-tone=err]{color:var(--dsw-alias-state-error-primary);border:1px solid color-mix(in srgb, var(--dsw-alias-state-error-primary) 40%, transparent)}"
+			+ ".DSC_badge[data-tone=biz]{color:var(--dsw-alias-state-business-primary);border:1px solid color-mix(in srgb, var(--dsw-alias-state-business-primary) 40%, transparent)}"
+			+ ".DSC_empty{padding:24px 0;text-align:center;color:var(--dsw-alias-label-tertiary);font-size:13px;line-height:20px}"
+			+ ".DSC_notice{border-radius:8px;padding:8px 12px;font-size:12px;line-height:18px;border:1px solid transparent}"
+			+ ".DSC_notice[data-kind=error]{border-color:color-mix(in srgb, var(--dsw-alias-state-error-primary) 40%, transparent);background:color-mix(in srgb, var(--dsw-alias-state-error-primary) 8%, transparent);color:var(--dsw-alias-state-error-primary)}"
+			+ ".DSC_notice[data-kind=info]{border-color:color-mix(in srgb, var(--dsw-alias-state-business-primary) 35%, transparent);background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 8%, transparent);color:var(--dsw-alias-state-business-primary)}"
+			+ ".DSC_cardGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}"
+			+ "@media (max-width:720px){.DSC_cardGrid{grid-template-columns:1fr}}"
+			+ ".DSC_card{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-3);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;min-width:0}"
+			+ ".DSC_cardTop{display:flex;align-items:center;gap:8px;min-width:0}"
+			+ ".DSC_cardName{font-size:13px;font-weight:600;line-height:20px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}"
+			+ ".DSC_cardDesc{font-size:11.5px;line-height:16px;color:var(--dsw-alias-label-secondary);overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;word-break:break-word}"
+			+ ".DSC_cardMeta{display:flex;align-items:center;gap:8px;color:var(--dsw-alias-label-tertiary);font-size:11.5px;line-height:16px;flex-wrap:wrap}"
+			+ ".DSC_cardActions{display:flex;align-items:center;gap:8px;border-top:1px solid var(--dsw-alias-border-l2);padding-top:8px;flex-wrap:wrap}"
+			+ ".DSC_spacer{flex:1}"
+			+ ".DSC_form{display:flex;flex-direction:column;gap:10px}"
+			+ ".DSC_field{display:flex;flex-direction:column;gap:5px}"
+			+ ".DSC_label{font-size:12px;line-height:18px;color:var(--dsw-alias-label-secondary);margin:0}"
+			+ ".DSC_modalActions{display:flex;align-items:center;gap:8px;justify-content:flex-end;flex-wrap:wrap}"
+			+ ".DSC_body{box-sizing:border-box;width:100%;min-height:240px;font-family:ui-monospace,SFMono-Regular,Consolas,Menlo,monospace;font-size:12px;line-height:18px;white-space:pre-wrap;word-break:break-word;color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:8px;padding:8px 10px;resize:vertical;max-height:50vh;overflow:auto}"
+			+ ".DSC_destRow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}"
+			+ ".DSC_dest{font:inherit;font-size:12px;line-height:18px;color:var(--dsw-alias-label-secondary);cursor:pointer;background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:999px;padding:3px 10px}"
+			+ ".DSC_dest[data-active=true]{color:var(--dsw-alias-state-business-primary);border-color:var(--dsw-alias-state-business-primary);background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 12%, transparent)}"
+			+ ".DSC_check{display:flex;align-items:center;gap:7px;font-size:12.5px;line-height:20px;color:var(--dsw-alias-label-secondary);cursor:pointer;flex-wrap:wrap}"
+			+ ".DSC_check input{margin:0;accent-color:var(--dsw-alias-state-business-primary);flex:none}"
+			+ ".DSC_check:hover{color:var(--dsw-alias-label-primary)}"
+			+ ".DSC_checkHint{color:var(--dsw-alias-label-tertiary);font-size:11.5px;line-height:16px}"
+			+ ".SKV_originTag{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;line-height:15px;color:var(--dsw-alias-label-tertiary);border:1px solid var(--dsw-alias-border-l2);border-radius:999px;padding:0 6px;flex:none;white-space:nowrap}"
+			+ ".SKV_originTag[data-kind=repo]{color:var(--dsw-alias-state-business-primary);border-color:color-mix(in srgb, var(--dsw-alias-state-business-primary) 40%, transparent)}"
+			+ ".SKV_originTag[data-kind=clawhub],.SKV_originTag[data-kind=skillsh]{color:var(--dsw-alias-state-success-primary);border-color:color-mix(in srgb, var(--dsw-alias-state-success-primary) 40%, transparent)}"
+			+ ".SKV_originTag[data-installed=true]::before{content:\"↓\";font-size:10px;line-height:1}"
+			+ ".SKV_originTag[data-kind=plugin]{color:var(--dsw-alias-label-tertiary);border-style:dashed}";
+
+		const css = cssPage + cssChrome + cssCards + cssAdd + cssScope + cssMigrate + cssCategory + cssTree + cssPanelIcon + cssTheme + cssEffects + cssChipRefresh + cssGroups + cssShell + cssRow + cssDiscover ;
 		const tagId = "dsh-skill-mcp-panel/SkillsSection.module.css";
 		if (typeof document !== "undefined") {
 			let tag = document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") as HTMLElement | null;
@@ -406,6 +498,7 @@ const cssGroups = ".SKV_groupItemWrap{position:relative;display:inline-flex;alig
 			groupBar: "SKV_groupBar",
 			groupItem: "SKV_groupItem",
 			groupItemCount: "SKV_groupItemCount",
+			groupItemHint: "SKV_groupItemHint",
 			groupBulkRow: "SKV_groupBulkRow",
 			groupBulkBtn: "SKV_groupBulkBtn",
 			groupDelete: "SKV_groupDelete",
@@ -502,6 +595,52 @@ const cssGroups = ".SKV_groupItemWrap{position:relative;display:inline-flex;alig
 			toast: "SKV_toast",
 			toastText: "SKV_toastText",
 			toastAction: "SKV_toastAction",
+			originTag: "SKV_originTag",
+			// ── 发现技能 ────────────────────────────────────────────────────
+			dscSection: "DSC_section",
+			dscHead: "DSC_head",
+			dscIntro: "DSC_intro",
+			dscFooter: "DSC_footer",
+			dscSubtabs: "DSC_subtabs",
+			dscSubtab: "DSC_subtab",
+			dscToolbar: "DSC_toolbar",
+			dscSelect: "DSC_select",
+			dscInput: "DSC_input",
+			dscBtn: "DSC_btn",
+			dscRepos: "DSC_repos",
+			dscRepo: "DSC_repo",
+			dscRepoTop: "DSC_repoTop",
+			dscRepoName: "DSC_repoName",
+			dscRepoCount: "DSC_repoCount",
+			dscRepoChevron: "DSC_repoChevron",
+			dscBtnSm: "DSC_btnSm",
+
+			dscMono: "DSC_mono",
+			dscSkills: "DSC_skills",
+			dscSkill: "DSC_skill",
+			dscSkillInfo: "DSC_skillInfo",
+			dscSkillName: "DSC_skillName",
+			dscSkillDesc: "DSC_skillDesc",
+			dscBadge: "DSC_badge",
+			dscEmpty: "DSC_empty",
+			dscNotice: "DSC_notice",
+			dscCardGrid: "DSC_cardGrid",
+			dscCard: "DSC_card",
+			dscCardTop: "DSC_cardTop",
+			dscCardName: "DSC_cardName",
+			dscCardDesc: "DSC_cardDesc",
+			dscCardMeta: "DSC_cardMeta",
+			dscCardActions: "DSC_cardActions",
+			dscSpacer: "DSC_spacer",
+			dscForm: "DSC_form",
+			dscField: "DSC_field",
+			dscLabel: "DSC_label",
+			dscModalActions: "DSC_modalActions",
+			dscBody: "DSC_body",
+			dscDestRow: "DSC_destRow",
+			dscDest: "DSC_dest",
+			dscCheck: "DSC_check",
+			dscCheckHint: "DSC_checkHint",
 		};
 
 		// ── 文案字典 ─────────────────────────────────────────────────────────
@@ -612,6 +751,14 @@ const cssGroups = ".SKV_groupItemWrap{position:relative;display:inline-flex;alig
 			paneSources: "来源",
 			paneUngrouped: "未分组",
 			panePluginProvided: "插件自带",
+			srcRootDsh: "DSH skills",
+			srcRootAgents: "公共 Agent",
+			srcRootProjectDsh: "项目 .dsh/skills",
+			srcRootProjectAgents: "项目 .agents/skills",
+			srcRootBundled: "随包内置",
+			srcRootRuntime: "运行时注册",
+			srcInstalledFrom: "装自 {origin}",
+			srcPluginOwnerHint: "该技能由插件 {owner} 随包提供，面板无法修改",
 			paneProviderUnknown: "未知来源",
 			emptyProvider: "该来源下暂无技能。",
 			// 布局开关：简洁模式 = 收起左右两栏，把工作区与分组做成列表上方的筛选条（Issue #50）
@@ -644,6 +791,91 @@ const cssGroups = ".SKV_groupItemWrap{position:relative;display:inline-flex;alig
 			toastUndo: "撤销",
 			toastUndoDone: "已还原 {name}",
 			toastUndoFailed: "还原失败，请重新添加该技能。",
+			// ── 发现技能 ────────────────────────────────────────────────────
+			navDiscover: "发现技能",
+			discoverIntro: "从已订阅的 Git 仓库或第三方目录发现技能，安装到用户目录的 DSH skills、Shared Agent，或已登记项目的 .dsh/skills。",
+			discoverFooter: "刷新会检查仓库与技能更新，不会自动替换本地文件。",
+			discoverSourceRepo: "Git 仓库",
+			discoverSourceClawhub: "ClawHub",
+			discoverSourceSkillsh: "skills.sh",
+			discoverLoading: "正在读取…",
+			discoverError: "暂时无法读取发现技能数据。",
+			discoverReposEmpty: "还没有技能仓库，添加一个 Git 仓库开始。",
+			discoverRepoAdd: "添加仓库",
+			discoverRepoManage: "管理仓库",
+			discoverRepoUrl: "仓库地址",
+			discoverRepoUrlPlaceholder: "owner/repo 或完整 Git 地址",
+			discoverRepoRef: "分支或标签（可选）",
+			discoverRepoRefPlaceholder: "留空使用默认分支",
+			discoverRepoSubdir: "技能子目录（可选）",
+			discoverRepoSubdirPlaceholder: "例如 skills，留空扫描整个仓库",
+			discoverRepoIncludeHidden: "包含隐藏目录",
+			discoverRepoIncludeHiddenHint: "仅当技能放在 .openclaw/skills 这类隐藏目录时才需要",
+			discoverRepoSave: "添加并扫描",
+			discoverRepoSaveBusy: "正在扫描仓库…",
+			discoverRepoRefresh: "刷新并检查更新",
+			discoverRepoRefreshing: "正在刷新…",
+			discoverRepoRemove: "移除订阅",
+			discoverRepoRemoveHint: "仅移除仓库订阅，已安装的技能会保留。",
+			discoverRepoRemoveConfirm: "确认移除",
+			discoverRepoCommit: "扫描版本",
+			discoverRepoNotScanned: "尚未扫描",
+			discoverRepoScannedAt: "上次刷新",
+			discoverRepoDefaultBranch: "默认分支",
+			discoverRepoAll: "全部仓库",
+			discoverRepoStates: "全部状态",
+			discoverRepoAvailable: "可安装",
+			discoverRepoInstalled: "已安装",
+			discoverRepoConflict: "同名冲突",
+			discoverRepoInvalid: "格式无效",
+			discoverRepoSearch: "搜索仓库技能",
+			discoverRepoNoSkills: "没有匹配的技能。可刷新仓库或调整筛选。",
+			discoverRepoAddHint: "技能可能包含脚本，请先查看说明并确认信任来源。安装会保留资源文件，不会执行脚本。",
+			discoverInstall: "安装",
+			discoverInstalling: "安装中…",
+			discoverInstallSuccess: "安装成功并已启用。",
+			discoverInstallUpdated: "已更新到最新版本。",
+			discoverUninstall: "卸载",
+			discoverUninstallHint: "仅移除该安装副本，之后可以重新安装。",
+			discoverUninstallSuccess: "已卸载 {name}。",
+			discoverInstalledTag: "已安装",
+			discoverUpdatedTag: "可更新",
+			discoverDetail: "详情",
+			discoverDetailLoading: "正在读取技能说明…",
+			discoverDetailError: "技能说明读取失败。",
+			discoverCopyBody: "复制正文",
+			discoverCopied: "已复制",
+			discoverCopyFailed: "复制失败",
+			discoverCatalogSearchClawhub: "搜索 ClawHub 技能",
+			discoverCatalogSearchSkillsh: "搜索 skills.sh 技能",
+			discoverCatalogSearching: "正在搜索…",
+			discoverCatalogEmpty: "没有找到匹配的技能。",
+			discoverCatalogError: "搜索失败，请重试。",
+			discoverCatalogDownloads: "下载",
+			discoverCatalogInstalls: "安装",
+			discoverCatalogStars: "星标",
+			discoverCatalogTop: "热门下载 Top 10",
+			discoverCatalogLoading: "正在加载榜单…",
+			discoverCatalogLoadError: "榜单加载失败，请检查网络后重试。",
+			discoverCatalogNote: "仅对当前显示条目排序。",
+			discoverInstallDest: "安装位置",
+			discoverDestDsh: "DSH skills",
+			discoverDestAgents: "Shared Agent",
+			discoverDestWorkspace: "项目 .dsh/skills",
+			discoverDestDshHint: "仅供 DSH 使用，路径以当前 DSH_HOME 为准。",
+			discoverDestAgentsHint: "使用该目录的其他 Agent 也能读取此技能。",
+			discoverDestWorkspaceHint: "写入所选项目根下的 .dsh/skills。",
+			discoverDestPickWorkspace: "选择项目",
+			discoverCancel: "取消",
+			discoverClose: "关闭",
+			discoverOriginTitle: "安装来源",
+			discoverOriginRepo: "仓库",
+			discoverOriginClawhub: "ClawHub",
+			discoverOriginSkillsh: "skills.sh",
+			discoverOriginLock: "锁文件",
+			discoverOriginMarket: "市场",
+			discoverOriginNone: "本机",
+			discoverInstalledFromHint: "该技能由「发现技能」安装，来源：{origin}",
 		};
 
 		const en = {
@@ -751,6 +983,14 @@ const cssGroups = ".SKV_groupItemWrap{position:relative;display:inline-flex;alig
 			paneSources: "Sources",
 			paneUngrouped: "Ungrouped",
 			panePluginProvided: "Plugin-provided",
+			srcRootDsh: "DSH skills",
+			srcRootAgents: "Shared Agent",
+			srcRootProjectDsh: "Project .dsh/skills",
+			srcRootProjectAgents: "Project .agents/skills",
+			srcRootBundled: "Bundled",
+			srcRootRuntime: "Runtime",
+			srcInstalledFrom: "Installed from {origin}",
+			srcPluginOwnerHint: "Bundled with plugin {owner}; not editable from this panel",
 			paneProviderUnknown: "Unknown source",
 			emptyProvider: "No skills from this source yet.",
 			layoutToCompact: "Switch to the compact layout",
@@ -782,6 +1022,91 @@ const cssGroups = ".SKV_groupItemWrap{position:relative;display:inline-flex;alig
 			toastUndo: "Undo",
 			toastUndoDone: "Restored {name}",
 			toastUndoFailed: "Restore failed — please add the skill again.",
+			// ── Discover ────────────────────────────────────────────────────
+			navDiscover: "Discover",
+			discoverIntro: "Discover skills from subscribed Git repositories or third-party catalogs and install them into the user DSH skills folder, Shared Agent, or a registered project's .dsh/skills.",
+			discoverFooter: "Refreshing checks repositories and skills for updates; local files are never replaced automatically.",
+			discoverSourceRepo: "Git repositories",
+			discoverSourceClawhub: "ClawHub",
+			discoverSourceSkillsh: "skills.sh",
+			discoverLoading: "Reading…",
+			discoverError: "Discover data is temporarily unavailable.",
+			discoverReposEmpty: "No skill repositories yet — add a Git repository to start.",
+			discoverRepoAdd: "Add repository",
+			discoverRepoManage: "Manage repositories",
+			discoverRepoUrl: "Repository URL",
+			discoverRepoUrlPlaceholder: "owner/repo or a full Git URL",
+			discoverRepoRef: "Branch or tag (optional)",
+			discoverRepoRefPlaceholder: "Leave empty for the default branch",
+			discoverRepoSubdir: "Skills subdirectory (optional)",
+			discoverRepoSubdirPlaceholder: "e.g. skills; leave empty to scan the whole repository",
+			discoverRepoIncludeHidden: "Include hidden directories",
+			discoverRepoIncludeHiddenHint: "Only needed when skills live under hidden folders such as .openclaw/skills",
+			discoverRepoSave: "Add and scan",
+			discoverRepoSaveBusy: "Scanning repository…",
+			discoverRepoRefresh: "Refresh and check updates",
+			discoverRepoRefreshing: "Refreshing…",
+			discoverRepoRemove: "Remove subscription",
+			discoverRepoRemoveHint: "Removes the subscription only; installed skills are kept.",
+			discoverRepoRemoveConfirm: "Confirm removal",
+			discoverRepoCommit: "Scanned revision",
+			discoverRepoNotScanned: "Not scanned yet",
+			discoverRepoScannedAt: "Last refreshed",
+			discoverRepoDefaultBranch: "default branch",
+			discoverRepoAll: "All repositories",
+			discoverRepoStates: "All states",
+			discoverRepoAvailable: "Available",
+			discoverRepoInstalled: "Installed",
+			discoverRepoConflict: "Name conflict",
+			discoverRepoInvalid: "Invalid format",
+			discoverRepoSearch: "Search repository skills",
+			discoverRepoNoSkills: "No matching skills. Refresh the repository or adjust the filters.",
+			discoverRepoAddHint: "Skills may contain scripts — review the description and trust the source first. Installation keeps resource files and never executes scripts.",
+			discoverInstall: "Install",
+			discoverInstalling: "Installing…",
+			discoverInstallSuccess: "Installed and enabled.",
+			discoverInstallUpdated: "Updated to the latest version.",
+			discoverUninstall: "Uninstall",
+			discoverUninstallHint: "Removes only this installed copy; you can install it again later.",
+			discoverUninstallSuccess: "Uninstalled {name}.",
+			discoverInstalledTag: "Installed",
+			discoverUpdatedTag: "Update available",
+			discoverDetail: "Details",
+			discoverDetailLoading: "Reading the skill description…",
+			discoverDetailError: "Failed to read the skill description.",
+			discoverCopyBody: "Copy body",
+			discoverCopied: "Copied",
+			discoverCopyFailed: "Copy failed",
+			discoverCatalogSearchClawhub: "Search ClawHub skills",
+			discoverCatalogSearchSkillsh: "Search skills.sh skills",
+			discoverCatalogSearching: "Searching…",
+			discoverCatalogEmpty: "No matching skills found.",
+			discoverCatalogError: "Search failed — please retry.",
+			discoverCatalogDownloads: "downloads",
+			discoverCatalogInstalls: "installs",
+			discoverCatalogStars: "stars",
+			discoverCatalogTop: "Top 10 by downloads",
+			discoverCatalogLoading: "Loading the ranking…",
+			discoverCatalogLoadError: "Failed to load the ranking — check the network and retry.",
+			discoverCatalogNote: "Sorts only the entries currently shown.",
+			discoverInstallDest: "Install location",
+			discoverDestDsh: "DSH skills",
+			discoverDestAgents: "Shared Agent",
+			discoverDestWorkspace: "Project .dsh/skills",
+			discoverDestDshHint: "Used by DSH only; the path follows the current DSH_HOME.",
+			discoverDestAgentsHint: "Other agents using that folder can read this skill too.",
+			discoverDestWorkspaceHint: "Writes into the selected project root's .dsh/skills.",
+			discoverDestPickWorkspace: "Choose project",
+			discoverCancel: "Cancel",
+			discoverClose: "Close",
+			discoverOriginTitle: "Install source",
+			discoverOriginRepo: "Repository",
+			discoverOriginClawhub: "ClawHub",
+			discoverOriginSkillsh: "skills.sh",
+			discoverOriginLock: "Lockfile",
+			discoverOriginMarket: "Marketplace",
+			discoverOriginNone: "Local",
+			discoverInstalledFromHint: "Installed via Discover; source: {origin}",
 		};
 
 		// ── 远程贡献 ─────────────────────────────────────────────────────────
@@ -956,6 +1281,114 @@ const cssGroups = ".SKV_groupItemWrap{position:relative;display:inline-flex;alig
 					result: codec("dsh-skill-mcp-panel#AddResult")
 				},
 				{
+					id: "dsh-skill-mcp-panel#skillsViewer/discoverState",
+					service: "skillsViewer",
+					namespace: "skillsViewer",
+					method: "discoverState",
+					invocation: { kind: "direct" },
+					parameters: [],
+					result: codec("dsh-skill-mcp-panel#DiscoverStateResult")
+				},
+				{
+					id: "dsh-skill-mcp-panel#skillsViewer/addRepository",
+					service: "skillsViewer",
+					namespace: "skillsViewer",
+					method: "addRepository",
+					invocation: { kind: "direct" },
+					parameters: [
+						{ name: "payload", wire: "payload", source: "json", codec: codec("dsh-skill-mcp-panel#RepoAddPayload") }
+					],
+					result: codec("dsh-skill-mcp-panel#Repository")
+				},
+				{
+					id: "dsh-skill-mcp-panel#skillsViewer/refreshRepository",
+					service: "skillsViewer",
+					namespace: "skillsViewer",
+					method: "refreshRepository",
+					invocation: { kind: "direct" },
+					parameters: [
+						{ name: "payload", wire: "payload", source: "json", codec: codec("dsh-skill-mcp-panel#RepoIdPayload") }
+					],
+					result: codec("dsh-skill-mcp-panel#Repository")
+				},
+				{
+					id: "dsh-skill-mcp-panel#skillsViewer/removeRepository",
+					service: "skillsViewer",
+					namespace: "skillsViewer",
+					method: "removeRepository",
+					invocation: { kind: "direct" },
+					parameters: [
+						{ name: "payload", wire: "payload", source: "json", codec: codec("dsh-skill-mcp-panel#RepoIdPayload") }
+					],
+					result: codec("dsh-skill-mcp-panel#RemovedResult")
+				},
+				{
+					id: "dsh-skill-mcp-panel#skillsViewer/installRepositorySkill",
+					service: "skillsViewer",
+					namespace: "skillsViewer",
+					method: "installRepositorySkill",
+					invocation: { kind: "direct" },
+					parameters: [
+						{ name: "payload", wire: "payload", source: "json", codec: codec("dsh-skill-mcp-panel#RepoInstallPayload") }
+					],
+					result: codec("dsh-skill-mcp-panel#InstallResult")
+				},
+				{
+					id: "dsh-skill-mcp-panel#skillsViewer/searchCatalog",
+					service: "skillsViewer",
+					namespace: "skillsViewer",
+					method: "searchCatalog",
+					invocation: { kind: "direct" },
+					parameters: [
+						{ name: "payload", wire: "payload", source: "json", codec: codec("dsh-skill-mcp-panel#CatalogSearchPayload") }
+					],
+					result: codec("dsh-skill-mcp-panel#CatalogListResult")
+				},
+				{
+					id: "dsh-skill-mcp-panel#skillsViewer/listCatalog",
+					service: "skillsViewer",
+					namespace: "skillsViewer",
+					method: "listCatalog",
+					invocation: { kind: "direct" },
+					parameters: [
+						{ name: "payload", wire: "payload", source: "json", codec: codec("dsh-skill-mcp-panel#CatalogListPayload") }
+					],
+					result: codec("dsh-skill-mcp-panel#CatalogListResult")
+				},
+				{
+					id: "dsh-skill-mcp-panel#skillsViewer/catalogDetail",
+					service: "skillsViewer",
+					namespace: "skillsViewer",
+					method: "catalogDetail",
+					invocation: { kind: "direct" },
+					parameters: [
+						{ name: "payload", wire: "payload", source: "json", codec: codec("dsh-skill-mcp-panel#CatalogIdentityPayload") }
+					],
+					result: codec("dsh-skill-mcp-panel#CatalogDetailResult")
+				},
+				{
+					id: "dsh-skill-mcp-panel#skillsViewer/installCatalogSkill",
+					service: "skillsViewer",
+					namespace: "skillsViewer",
+					method: "installCatalogSkill",
+					invocation: { kind: "direct" },
+					parameters: [
+						{ name: "payload", wire: "payload", source: "json", codec: codec("dsh-skill-mcp-panel#CatalogInstallPayload") }
+					],
+					result: codec("dsh-skill-mcp-panel#InstallResult")
+				},
+				{
+					id: "dsh-skill-mcp-panel#skillsViewer/uninstallDiscoverSkill",
+					service: "skillsViewer",
+					namespace: "skillsViewer",
+					method: "uninstallDiscoverSkill",
+					invocation: { kind: "direct" },
+					parameters: [
+						{ name: "payload", wire: "payload", source: "json", codec: codec("dsh-skill-mcp-panel#UninstallPayload") }
+					],
+					result: codec("dsh-skill-mcp-panel#RemovedResult")
+				},
+				{
 					id: "dsh-skill-mcp-panel#skillMcpPanel/list",
 					service: "skillMcpPanel",
 					namespace: "skillMcpPanel",
@@ -1062,6 +1495,15 @@ const cssGroups = ".SKV_groupItemWrap{position:relative;display:inline-flex;alig
 					invocation: { kind: "direct" },
 					parameters: [],
 					result: codec("dsh-skill-mcp-panel#McpToolFilterResult")
+				},
+				{
+					id: "dsh-skill-mcp-panel#skillMcpPanel/schemaConflicts",
+					service: "skillMcpPanel",
+					namespace: "skillMcpPanel",
+					method: "schemaConflicts",
+					invocation: { kind: "direct" },
+					parameters: [],
+					result: codec("dsh-skill-mcp-panel#McpSchemaConflictResult")
 				},
 				{
 					id: "dsh-skill-mcp-panel#skillMcpPanel/setToolFilter",
@@ -1653,6 +2095,867 @@ const cssGroups = ".SKV_groupItemWrap{position:relative;display:inline-flex;alig
 			});
 		}
 
+		// ── 发现技能（Discover）──────────────────────────────────────────────
+		//
+		// 三个子来源：Git 仓库订阅、ClawHub、skills.sh。共同点都是「看清单 → 选安装位置
+		// → 装进某个技能根」，所以外壳（子页签、安装位置选择器、结果提示）共用一套，
+		// 只有数据获取与条目形状各自不同。
+		//
+		// 这个组件只依赖 props 注入的远程调用与 t 字典，不碰宿主的其它服务——
+		// 与 SkillsSection 一样，是纯展示 + 调 RPC。
+
+		/** 安装位置选择器的取值。 */
+		const DISCOVER_DEST_KEY = "dsh-skill-mcp-panel:discover-dest";
+		const DISCOVER_SOURCE_KEY = "dsh-skill-mcp-panel:discover-source";
+
+		function readStored(key, fallback) {
+			try {
+				if (typeof localStorage === "undefined") return fallback;
+				const value = localStorage.getItem(key);
+				return value !== null && value !== "" ? value : fallback;
+			} catch {
+				return fallback;
+			}
+		}
+		function writeStored(key, value) {
+			try {
+				if (typeof localStorage !== "undefined") localStorage.setItem(key, value);
+			} catch {
+				// 隐私模式：记不住就算了
+			}
+		}
+
+		/**
+		 * 安装位置选择器：只有两个目的地。
+		 *
+		 *   - Shared Skill（`<agentsHome>/skills`，默认）：多个 Agent 共用，装一次到处能用；
+		 *   - DSH Skill（`<dshHome>/skills`）：只给 DSH 自己用。
+		 *
+		 * 为什么不再提供「项目 .dsh/skills」：技能装到某个项目根只有在那条工作区链上
+		 * 才会被看到，用户从「发现技能」页装完常常在别的会话里找不到，反而以为装失败；
+		 * 项目级技能应当由技能页的迁移/添加去做。目的地少一半，判断成本也低一半。
+		 */
+		const DISCOVER_DESTS = ["agents", "dsh"];
+		const DISCOVER_DEFAULT_DEST = "agents";
+
+		function DiscoverDestination(props) {
+			const { t, value, onChange, disabled } = props;
+			const dests = [
+				{ key: "agents", label: t("discoverDestAgents"), hint: t("discoverDestAgentsHint") },
+				{ key: "dsh", label: t("discoverDestDsh"), hint: t("discoverDestDshHint") }
+			];
+			const active = dests.find((item) => item.key === value.root) ?? dests[0];
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: c.dscField,
+				children: [(0, react_jsx_runtime.jsx)("span", { className: c.dscLabel, children: t("discoverInstallDest") }), (0, react_jsx_runtime.jsx)("div", {
+					className: c.dscDestRow,
+					children: dests.map((dest) => (0, react_jsx_runtime.jsx)("button", {
+						type: "button",
+						key: dest.key,
+						className: c.dscDest,
+						"data-active": value.root === dest.key ? "true" : "false",
+						disabled: disabled === true,
+						onClick: () => onChange({ root: dest.key }),
+						children: dest.label
+					}, dest.key))
+				}), (0, react_jsx_runtime.jsx)("p", { className: c.dscFooter, children: active.hint })]
+			});
+		}
+
+		/** 来源徽标：把 origin 对象渲染成一枚小标签。 */
+		function SkillOriginTag(props) {
+			const { t, origin, installedFrom } = props;
+			if (origin === undefined || origin === null) return null;
+			const label = origin.kind === "repo"
+				? t("discoverOriginRepo") + " · " + origin.label
+				: origin.kind === "clawhub"
+					? t("discoverOriginClawhub") + " · " + origin.label
+					: origin.kind === "skillsh"
+						? t("discoverOriginSkillsh") + " · " + origin.label
+						: origin.kind === "lock"
+							? t("discoverOriginLock") + " · " + origin.label
+							: t("discoverOriginMarket") + " · " + origin.label;
+			const title = installedFrom !== undefined
+				? t("discoverInstalledFromHint").replace("{origin}", origin.label)
+				: t("discoverOriginTitle") + ": " + origin.label;
+			const content = (0, react_jsx_runtime.jsx)("span", {
+				className: c.originTag,
+				"data-kind": origin.kind,
+				"data-installed": installedFrom !== undefined ? "true" : "false",
+				title,
+				children: label
+			});
+			if (origin.url !== undefined && origin.url !== "") {
+				return (0, react_jsx_runtime.jsx)("a", {
+					href: origin.url,
+					target: "_blank",
+					rel: "noreferrer",
+					style: { textDecoration: "none", display: "inline-flex" },
+					children: content
+				});
+			}
+			return content;
+		}
+
+		function DiscoverSection(props) {
+			const { t, listDiscover, addRepository, refreshRepository, removeRepository, installRepositorySkill, searchCatalog, listCatalog, catalogDetail, installCatalogSkill, uninstallDiscoverSkill } = props;
+
+			const [source, setSource] = react.useState(() => {
+				const stored = readStored(DISCOVER_SOURCE_KEY, "repo");
+				return stored === "clawhub" || stored === "skillsh" ? stored : "repo";
+			});
+			const selectSource = (next) => {
+				setSource(next);
+				writeStored(DISCOVER_SOURCE_KEY, next);
+				// 切到目录来源时自动出内容：ClawHub 拉榜单，skills.sh 保留输入后搜索。
+				setCatalogQuery("");
+				if (next === "clawhub") loadCatalogTop("clawhub");
+				else if (next === "skillsh") setCatalogState({ status: "idle", items: [], error: null });
+			};
+			const [dest, setDest] = react.useState(() => {
+				// 记住上次选择；只接受两个合法目的地，其它一律回落到默认 Shared Skill。
+				const stored = readStored(DISCOVER_DEST_KEY, DISCOVER_DEFAULT_DEST);
+				return { root: DISCOVER_DESTS.includes(stored) ? stored : DISCOVER_DEFAULT_DEST };
+			});
+			const changeDest = (next) => {
+				setDest(next);
+				writeStored(DISCOVER_DEST_KEY, next.root);
+			};
+			const [state, setState] = react.useState({ status: "loading", repositories: [], installs: [] });
+			const [notice, setNotice] = react.useState(null);
+			const [busy, setBusy] = react.useState({});
+			const [expandedRepo, setExpandedRepo] = react.useState(null);
+			const [repoQuery, setRepoQuery] = react.useState("");
+			const [repoFilter, setRepoFilter] = react.useState("all");
+			const [repoPick, setRepoPick] = react.useState("all");
+			const [addOpen, setAddOpen] = react.useState(false);
+			const [addForm, setAddForm] = react.useState({ url: "", ref: "", subdirectory: "", includeHidden: false });
+			const [detail, setDetail] = react.useState(null);
+			const [catalogQuery, setCatalogQuery] = react.useState("");
+			const [catalogState, setCatalogState] = react.useState({ status: "idle", items: [], error: null });
+			const [catalogDetailState, setCatalogDetailState] = react.useState(null);
+			const mounted = react.useRef(true);
+			react.useEffect(() => () => { mounted.current = false; }, []);
+
+			const flash = (kind, text) => {
+				setNotice({ kind, text });
+				setTimeout(() => {
+					if (mounted.current) setNotice((prev) => (prev !== null && prev.text === text ? null : prev));
+				}, 4000);
+			};
+
+			const reload = react.useCallback(() => {
+				setState((prev) => ({ ...prev, status: prev.status === "ready" ? "ready" : "loading" }));
+				return Promise.resolve().then(() => listDiscover()).then(
+					(data) => {
+						if (!mounted.current) return;
+						setState({
+							status: "ready",
+							repositories: Array.isArray(data?.repositories) ? data.repositories : [],
+							installs: Array.isArray(data?.installs) ? data.installs : []
+						});
+					},
+					(error) => {
+						if (!mounted.current) return;
+						setState({ status: "error", repositories: [], installs: [], error: error instanceof Error ? error.message : String(error) });
+					}
+				);
+			}, [listDiscover]);
+
+			react.useEffect(() => {
+				reload();
+				// 上次停在 ClawHub 的话，重新进来直接出榜单（不用再点一次）。
+				if (source === "clawhub") loadCatalogTop("clawhub");
+				// 只在挂载时跑一次：source 变化由 selectSource 自己触发加载。
+				// eslint-disable-next-line react-hooks/exhaustive-deps
+			}, [reload]);
+
+			const setBusyKey = (key, value) => setBusy((prev) => ({ ...prev, [key]: value }));
+			const isBusy = (key) => busy[key] === true;
+
+			// 安装记录索引：按「根 + 工作区 + 名称」判断某条目是否已装。
+			const installIndex = react.useMemo(() => {
+				const map = new Map();
+				for (const install of state.installs ?? []) {
+					map.set(install.root + "\u0000" + (install.workspace ?? "") + "\u0000" + install.name, install);
+				}
+				return map;
+			}, [state.installs]);
+			const installedCopy = (name) => {
+				const root = dest.root;
+				return installIndex.get(root + "\u0000" + (root === "workspace" ? dest.workspace ?? "" : "") + "\u0000" + name);
+			};
+
+			// 两个目的地都恒可用：不再有「必须先选项目」的前置条件。
+			const destReady = true;
+
+			// ── Git 仓库 ──────────────────────────────────────────────────────
+			const repositories = state.repositories ?? [];
+			const filteredRepos = repositories.filter((repo) => {
+				if (repoPick !== "all" && repo.id !== repoPick) return false;
+				const query = repoQuery.trim().toLocaleLowerCase();
+				if (query === "") return true;
+				if ((repo.name ?? "").toLocaleLowerCase().includes(query)) return true;
+				if ((repo.owner ?? "").toLocaleLowerCase().includes(query)) return true;
+				return (repo.skills ?? []).some((skill) => (skill.name ?? "").toLocaleLowerCase().includes(query));
+			});
+
+			const submitAdd = () => {
+				const url = addForm.url.trim();
+				if (url === "") return;
+				setBusyKey("add", true);
+				setNotice(null);
+				Promise.resolve().then(() => addRepository({
+					url,
+					...(addForm.ref.trim() === "" ? {} : { ref: addForm.ref.trim() }),
+					...(addForm.subdirectory.trim() === "" ? {} : { subdirectory: addForm.subdirectory.trim() }),
+					includeHidden: addForm.includeHidden === true
+				})).then(
+					() => {
+						setBusyKey("add", false);
+						setAddOpen(false);
+						setAddForm({ url: "", ref: "", subdirectory: "", includeHidden: false });
+						flash("info", t("discoverRepoSave") + " ✓");
+						reload();
+					},
+					(error) => {
+						setBusyKey("add", false);
+						flash("error", error instanceof Error ? error.message : String(error));
+					}
+				);
+			};
+
+			const runRefresh = (repo) => {
+				setBusyKey("repo:" + repo.id, true);
+				Promise.resolve().then(() => refreshRepository({ id: repo.id })).then(
+					() => {
+						setBusyKey("repo:" + repo.id, false);
+						flash("info", t("discoverRepoRefresh") + " ✓");
+						reload();
+					},
+					(error) => {
+						setBusyKey("repo:" + repo.id, false);
+						flash("error", error instanceof Error ? error.message : String(error));
+						reload();
+					}
+				);
+			};
+
+			const runRemove = (repo) => {
+				setBusyKey("remove:" + repo.id, true);
+				Promise.resolve().then(() => removeRepository({ id: repo.id })).then(
+					() => {
+						setBusyKey("remove:" + repo.id, false);
+						reload();
+					},
+					(error) => {
+						setBusyKey("remove:" + repo.id, false);
+						flash("error", error instanceof Error ? error.message : String(error));
+					}
+				);
+			};
+
+			const runInstallRepoSkill = (repo, skill) => {
+				const key = "install:" + repo.id + ":" + skill.path;
+				setBusyKey(key, true);
+				setNotice(null);
+				Promise.resolve().then(() => installRepositorySkill({
+					repoId: repo.id,
+					skillPath: skill.path,
+					root: dest.root,
+				})).then(
+					(result) => {
+						setBusyKey(key, false);
+						flash("info", result?.updated === true ? t("discoverInstallUpdated") : t("discoverInstallSuccess"));
+						reload();
+					},
+					(error) => {
+						setBusyKey(key, false);
+						flash("error", error instanceof Error ? error.message : String(error));
+					}
+				);
+			};
+
+			const runUninstall = (install) => {
+				if (install === undefined) return;
+				setBusyKey("uninstall:" + install.id, true);
+				Promise.resolve().then(() => uninstallDiscoverSkill({ id: install.id })).then(
+					() => {
+						setBusyKey("uninstall:" + install.id, false);
+						flash("info", t("discoverUninstallSuccess").replace("{name}", install.name));
+						reload();
+					},
+					(error) => {
+						setBusyKey("uninstall:" + install.id, false);
+						flash("error", error instanceof Error ? error.message : String(error));
+					}
+				);
+			};
+
+			const openDetail = (repo, skill) => {
+				setDetail({ kind: "repo", repo, skill, status: "loading" });
+				// 仓库技能详情直接用仓库清单里的 description（正文要靠安装后的技能页看）。
+				setDetail({ kind: "repo", repo, skill, status: "ready", body: "", description: skill.description ?? "" });
+			};
+
+			// ── 第三方目录 ────────────────────────────────────────────────────
+			/**
+			 * ClawHub 榜单：切到该子来源就自动拉一次，不用先打字。
+			 *
+			 * 为什么只有 ClawHub：它的官方接口支持「按下载量列榜单」；skills.sh 只有
+			 * 搜索端点，没有关键词就无从查起，所以那边保持「输入后搜索」。
+			 */
+			const loadCatalogTop = (kind) => {
+				if (kind !== "clawhub") return;
+				setCatalogState({ status: "loading", items: [], error: null });
+				Promise.resolve().then(() => listCatalog({ kind: "clawhub" })).then(
+					(result) => {
+						if (!mounted.current) return;
+						setCatalogState({ status: "ready", items: Array.isArray(result?.items) ? result.items : [], error: null });
+					},
+					(error) => {
+						if (!mounted.current) return;
+						setCatalogState({ status: "error", items: [], error: error instanceof Error ? error.message : String(error) });
+					}
+				);
+			};
+
+			const runCatalogSearch = (query) => {
+				const text = (query ?? "").trim();
+				if (text === "") {
+					setCatalogState({ status: "idle", items: [], error: null });
+					return;
+				}
+				setCatalogState({ status: "loading", items: [], error: null });
+				Promise.resolve().then(() => searchCatalog({ kind: source, query: text })).then(
+					(result) => {
+						if (!mounted.current) return;
+						setCatalogState({ status: "ready", items: Array.isArray(result?.items) ? result.items : [], error: null });
+					},
+					(error) => {
+						if (!mounted.current) return;
+						setCatalogState({ status: "error", items: [], error: error instanceof Error ? error.message : String(error) });
+					}
+				);
+			};
+
+			const openCatalogDetail = (item) => {
+				setCatalogDetailState({ item, status: "loading" });
+				const payload: any = { kind: item.kind };
+				if (item.kind === "clawhub") {
+					payload.owner = item.owner;
+					payload.slug = item.slug;
+				} else {
+					payload.source = item.source;
+					payload.skillId = item.skillId;
+				}
+				Promise.resolve().then(() => catalogDetail(payload)).then(
+					(detailValue) => {
+						if (!mounted.current) return;
+						setCatalogDetailState({ item, status: "ready", detail: detailValue });
+					},
+					(error) => {
+						if (!mounted.current) return;
+						setCatalogDetailState({ item, status: "error", error: error instanceof Error ? error.message : String(error) });
+					}
+				);
+			};
+
+			const runInstallCatalog = (item) => {
+				const key = "catalog:" + item.id;
+				setBusyKey(key, true);
+				setNotice(null);
+				const payload: any = { kind: item.kind, root: dest.root };
+				if (item.kind === "clawhub") {
+					payload.owner = item.owner;
+					payload.slug = item.slug;
+				} else {
+					payload.source = item.source;
+					payload.skillId = item.skillId;
+				}
+				Promise.resolve().then(() => installCatalogSkill(payload)).then(
+					(result) => {
+						setBusyKey(key, false);
+						flash("info", result?.updated === true ? t("discoverInstallUpdated") : t("discoverInstallSuccess"));
+						reload();
+					},
+					(error) => {
+						setBusyKey(key, false);
+						flash("error", error instanceof Error ? error.message : String(error));
+					}
+				);
+			};
+
+			// ── 渲染 ──────────────────────────────────────────────────────────
+			const subtabs = [
+				{ key: "repo", label: t("discoverSourceRepo") + " (" + repositories.length + ")" },
+				{ key: "clawhub", label: t("discoverSourceClawhub") },
+				{ key: "skillsh", label: t("discoverSourceSkillsh") }
+			];
+
+			const header = (0, react_jsx_runtime.jsxs)("div", {
+				className: c.dscHead,
+				children: [
+					(0, react_jsx_runtime.jsx)("p", { className: c.dscIntro, children: t("discoverIntro") }),
+					(0, react_jsx_runtime.jsx)("div", {
+						className: c.dscSubtabs,
+						role: "tablist",
+						children: subtabs.map((tab) => (0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							key: tab.key,
+							role: "tab",
+							className: c.dscSubtab,
+							"data-active": source === tab.key ? "true" : "false",
+							"aria-selected": source === tab.key,
+							onClick: () => selectSource(tab.key),
+							children: tab.label
+						}, tab.key))
+					}),
+					(0, react_jsx_runtime.jsx)(DiscoverDestination, { t, value: dest, onChange: changeDest, disabled: false })
+				]
+			});
+
+			const noticeNode = notice === null ? null : (0, react_jsx_runtime.jsx)("div", {
+				className: c.dscNotice,
+				"data-kind": notice.kind,
+				role: notice.kind === "error" ? "alert" : "status",
+				children: notice.text
+			});
+
+			// 仓库视图
+			const repoPanel = (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+				(0, react_jsx_runtime.jsxs)("div", {
+					className: c.dscToolbar,
+					key: "toolbar",
+					children: [
+						(0, react_jsx_runtime.jsxs)("select", {
+							className: c.dscSelect,
+							value: repoPick,
+							"aria-label": t("discoverRepoAll"),
+							onChange: (event) => setRepoPick(event.target.value),
+							children: [(0, react_jsx_runtime.jsx)("option", { value: "all", children: t("discoverRepoAll") })].concat(
+								repositories.map((repo) => (0, react_jsx_runtime.jsx)("option", { value: repo.id, children: repo.owner + "/" + repo.name }, repo.id))
+							)
+						}),
+						(0, react_jsx_runtime.jsxs)("select", {
+							className: c.dscSelect,
+							value: repoFilter,
+							"aria-label": t("discoverRepoStates"),
+							onChange: (event) => setRepoFilter(event.target.value),
+							children: [
+								(0, react_jsx_runtime.jsx)("option", { value: "all", children: t("discoverRepoStates") }),
+								(0, react_jsx_runtime.jsx)("option", { value: "available", children: t("discoverRepoAvailable") }),
+								(0, react_jsx_runtime.jsx)("option", { value: "installed", children: t("discoverRepoInstalled") }),
+								(0, react_jsx_runtime.jsx)("option", { value: "invalid", children: t("discoverRepoInvalid") })
+							]
+						}),
+						(0, react_jsx_runtime.jsx)("input", {
+							className: c.dscInput,
+							value: repoQuery,
+							placeholder: t("discoverRepoSearch"),
+							"aria-label": t("discoverRepoSearch"),
+							onChange: (event) => setRepoQuery(event.target.value)
+						}),
+						(0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							className: c.dscBtn,
+							disabled: isBusy("add"),
+							onClick: () => { reload(); },
+							children: t("discoverRepoRefresh")
+						}),
+						(0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							className: c.dscBtn,
+							"data-primary": "true",
+							onClick: () => setAddOpen(true),
+							children: "+ " + t("discoverRepoAdd")
+						})
+					]
+				}),
+				state.status === "error" ? (0, react_jsx_runtime.jsx)("div", {
+					key: "err",
+					className: c.dscNotice,
+					"data-kind": "error",
+					role: "alert",
+					children: t("discoverError") + " " + (state.error ?? "")
+				}, "err") : null,
+				state.status === "loading" ? (0, react_jsx_runtime.jsx)("div", { key: "loading", className: c.dscEmpty, children: t("discoverLoading") }, "loading") : null,
+				state.status === "ready" && repositories.length === 0 ? (0, react_jsx_runtime.jsx)("div", {
+					key: "empty",
+					className: c.dscEmpty,
+					children: t("discoverReposEmpty")
+				}, "empty") : null,
+				state.status === "ready" ? (0, react_jsx_runtime.jsx)("div", {
+					key: "repos",
+					className: c.dscRepos,
+					children: filteredRepos.map((repo) => {
+						const open = expandedRepo === repo.id;
+						const skills = (repo.skills ?? []).filter((skill) => {
+							if (repoFilter === "available") return skill.valid === true && installedCopy(skill.name) === undefined;
+							if (repoFilter === "installed") return installedCopy(skill.name) !== undefined;
+							if (repoFilter === "invalid") return skill.valid !== true;
+							return true;
+						});
+						return (0, react_jsx_runtime.jsxs)("div", {
+							className: c.dscRepo,
+							children: [
+								// 单行紧凑布局：展开钮 · 仓库名 · 技能数 · 元信息 · （右侧）刷新/移除。
+								// 原来拆成三行（名字 / 元信息 / 按钮各占一行），一屏只能放三四个仓库；
+								// 合并成一行后同样高度能看六七个，元信息与操作都在手指自然落点附近。
+								(0, react_jsx_runtime.jsxs)("div", {
+									className: c.dscRepoTop,
+									children: [
+										(0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: c.dscRepoChevron,
+											"aria-expanded": open,
+											"aria-label": repo.owner + "/" + repo.name,
+											onClick: () => setExpandedRepo(open ? null : repo.id),
+											children: open ? "−" : "+"
+										}),
+										(0, react_jsx_runtime.jsx)("span", { className: c.dscRepoName, title: repo.owner + "/" + repo.name, children: repo.owner + "/" + repo.name }),
+										(0, react_jsx_runtime.jsx)("span", { className: c.dscRepoCount, children: (repo.skills ?? []).length }),
+										(0, react_jsx_runtime.jsx)("span", {
+											className: c.dscBadge,
+											children: repo.ref === "" ? t("discoverRepoDefaultBranch") : repo.ref
+										}),
+										repo.subdirectory !== "" ? (0, react_jsx_runtime.jsx)("span", { className: c.dscMono, title: repo.subdirectory, children: repo.subdirectory }) : null,
+										(0, react_jsx_runtime.jsx)("span", {
+											className: c.dscMono,
+											title: repo.commit ?? "",
+											children: repo.commit === null ? t("discoverRepoNotScanned") : repo.commit.slice(0, 7)
+										}),
+										repo.error !== undefined ? (0, react_jsx_runtime.jsx)("span", {
+											className: c.dscBadge,
+											"data-tone": "err",
+											title: repo.error,
+											children: repo.error
+										}) : null,
+										(0, react_jsx_runtime.jsx)("span", { className: c.dscSpacer }),
+										(0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: c.dscBtnSm,
+											disabled: isBusy("repo:" + repo.id),
+											onClick: () => runRefresh(repo),
+											children: isBusy("repo:" + repo.id) ? t("discoverRepoRefreshing") : t("discoverRepoRefresh")
+										}),
+										(0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: c.dscBtnSm,
+											"data-danger": "true",
+											disabled: isBusy("remove:" + repo.id),
+											title: t("discoverRepoRemoveHint"),
+											onClick: () => runRemove(repo),
+											children: t("discoverRepoRemove")
+										})
+									]
+								}),
+								open ? (0, react_jsx_runtime.jsx)("div", {
+									className: c.dscSkills,
+									children: skills.length === 0 ? (0, react_jsx_runtime.jsx)("div", { className: c.dscEmpty, children: t("discoverRepoNoSkills") }) : skills.map((skill) => {
+										const install = installedCopy(skill.name);
+										const installKey = "install:" + repo.id + ":" + skill.path;
+										return (0, react_jsx_runtime.jsxs)("div", {
+											className: c.dscSkill,
+											children: [
+												(0, react_jsx_runtime.jsxs)("div", {
+													className: c.dscSkillInfo,
+													children: [
+														(0, react_jsx_runtime.jsxs)("span", {
+															className: c.dscSkillName,
+															children: [
+																skill.name,
+																install !== undefined ? (0, react_jsx_runtime.jsx)("span", {
+																	className: c.dscBadge,
+																	"data-tone": "ok",
+																	style: { marginLeft: 6 },
+																	children: t("discoverInstalledTag")
+																}) : null,
+																skill.valid !== true ? (0, react_jsx_runtime.jsx)("span", {
+																	className: c.dscBadge,
+																	"data-tone": "err",
+																	style: { marginLeft: 6 },
+																	title: skill.reason ?? "",
+																	children: t("discoverRepoInvalid")
+																}) : null
+															]
+														}),
+														skill.description !== "" ? (0, react_jsx_runtime.jsx)("span", { className: c.dscSkillDesc, children: skill.description }) : null,
+														(0, react_jsx_runtime.jsx)("span", { className: c.dscMono, children: skill.path })
+													]
+												}),
+												skill.valid === true ? (0, react_jsx_runtime.jsx)("button", {
+													type: "button",
+													className: c.dscBtn,
+													"data-primary": "true",
+													disabled: !destReady || isBusy(installKey),
+													onClick: () => runInstallRepoSkill(repo, skill),
+													children: isBusy(installKey) ? t("discoverInstalling") : install !== undefined ? t("discoverUpdatedTag") : t("discoverInstall")
+												}) : null,
+												install !== undefined ? (0, react_jsx_runtime.jsx)("button", {
+													type: "button",
+													className: c.dscBtn,
+													disabled: isBusy("uninstall:" + install.id),
+													title: t("discoverUninstallHint"),
+													onClick: () => runUninstall(install),
+													children: t("discoverUninstall")
+												}) : null
+											]
+										}, skill.path);
+									})
+								}) : null
+							]
+						}, repo.id);
+					})
+				}, "repos") : null,
+				(0, react_jsx_runtime.jsx)("p", { key: "footer", className: c.dscFooter, children: t("discoverFooter") })
+			] });
+
+			// 目录视图（ClawHub / skills.sh 共用）
+			const catalogPanel = (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+				(0, react_jsx_runtime.jsxs)("div", {
+					className: c.dscToolbar,
+					key: "toolbar",
+					children: [
+						(0, react_jsx_runtime.jsx)("input", {
+							className: c.dscInput,
+							value: catalogQuery,
+							placeholder: source === "clawhub" ? t("discoverCatalogSearchClawhub") : t("discoverCatalogSearchSkillsh"),
+							"aria-label": source === "clawhub" ? t("discoverCatalogSearchClawhub") : t("discoverCatalogSearchSkillsh"),
+							onChange: (event) => setCatalogQuery(event.target.value),
+							onKeyDown: (event) => {
+								if (event.key === "Enter") runCatalogSearch(catalogQuery);
+							}
+						}),
+						(0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							className: c.dscBtn,
+							"data-primary": "true",
+							disabled: catalogState.status === "loading" || catalogQuery.trim() === "",
+							onClick: () => runCatalogSearch(catalogQuery),
+							children: catalogState.status === "loading" ? t("discoverCatalogSearching") : t("discoverInstall")
+						})
+					]
+				}),
+				catalogState.status === "error" ? (0, react_jsx_runtime.jsx)("div", {
+					key: "err",
+					className: c.dscNotice,
+					"data-kind": "error",
+					role: "alert",
+					children: t("discoverCatalogError")
+				}, "err") : null,
+				catalogState.status === "loading" ? (0, react_jsx_runtime.jsx)("div", { key: "loading", className: c.dscEmpty, children: t("discoverCatalogSearching") }, "loading") : null,
+				catalogState.status === "ready" && catalogState.items.length === 0 ? (0, react_jsx_runtime.jsx)("div", {
+					key: "empty",
+					className: c.dscEmpty,
+					children: t("discoverCatalogEmpty")
+				}, "empty") : null,
+				catalogState.items.length > 0 ? (0, react_jsx_runtime.jsx)("div", {
+					key: "items",
+					className: c.dscCardGrid,
+					children: catalogState.items.map((item) => {
+						const key = "catalog:" + item.id;
+						return (0, react_jsx_runtime.jsxs)("div", {
+							className: c.dscCard,
+							children: [
+								(0, react_jsx_runtime.jsxs)("div", {
+									className: c.dscCardTop,
+									children: [
+										(0, react_jsx_runtime.jsx)("span", { className: c.dscCardName, title: item.id, children: item.name }),
+										(0, react_jsx_runtime.jsx)("span", { className: c.dscSpacer }),
+										(0, react_jsx_runtime.jsx)("span", {
+											className: c.dscBadge,
+											"data-tone": "biz",
+											children: item.kind === "clawhub" ? t("discoverOriginClawhub") : t("discoverOriginSkillsh")
+										})
+									]
+								}),
+								item.description !== "" ? (0, react_jsx_runtime.jsx)("span", { className: c.dscCardDesc, children: item.description }) : null,
+								(0, react_jsx_runtime.jsxs)("div", {
+									className: c.dscCardMeta,
+									children: [
+										(0, react_jsx_runtime.jsx)("span", { className: c.dscMono, children: item.id }),
+										item.installs !== undefined ? (0, react_jsx_runtime.jsx)("span", { children: item.installs + " " + t("discoverCatalogInstalls") }) : null,
+										item.downloads !== undefined ? (0, react_jsx_runtime.jsx)("span", { children: item.downloads + " " + t("discoverCatalogDownloads") }) : null,
+										item.stars !== undefined ? (0, react_jsx_runtime.jsx)("span", { children: item.stars + " " + t("discoverCatalogStars") }) : null
+									]
+								}),
+								(0, react_jsx_runtime.jsxs)("div", {
+									className: c.dscCardActions,
+									children: [
+										(0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: c.dscBtn,
+											onClick: () => openCatalogDetail(item),
+											children: t("discoverDetail")
+										}),
+										(0, react_jsx_runtime.jsx)("span", { className: c.dscSpacer }),
+										(0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: c.dscBtn,
+											"data-primary": "true",
+											disabled: !destReady || isBusy(key),
+											onClick: () => runInstallCatalog(item),
+											children: isBusy(key) ? t("discoverInstalling") : t("discoverInstall")
+										})
+									]
+								})
+							]
+						}, item.id);
+					})
+				}, "items") : null,
+				(0, react_jsx_runtime.jsx)("p", { key: "footer", className: c.dscFooter, children: t("discoverFooter") })
+			] });
+
+			// 添加仓库弹窗
+			const addModal = addOpen ? (0, react_jsx_runtime.jsx)("div", {
+				className: c.scopeOverlay,
+				role: "presentation",
+				onClick: closeOnBackdrop(() => { if (!isBusy("add")) setAddOpen(false); }, isBusy("add")),
+				children: (0, react_jsx_runtime.jsxs)("div", {
+					className: c.scopeBox,
+					role: "dialog",
+					"aria-modal": "true",
+					"aria-label": t("discoverRepoAdd"),
+					children: [
+						(0, react_jsx_runtime.jsx)("h4", { children: t("discoverRepoAdd") }),
+						(0, react_jsx_runtime.jsxs)("div", {
+							className: c.dscForm,
+							children: [
+								(0, react_jsx_runtime.jsxs)("label", {
+									className: c.dscField,
+									children: [
+										(0, react_jsx_runtime.jsx)("span", { className: c.dscLabel, children: t("discoverRepoUrl") }),
+										(0, react_jsx_runtime.jsx)("input", {
+											className: c.dscInput,
+											value: addForm.url,
+											placeholder: t("discoverRepoUrlPlaceholder"),
+											autoFocus: true,
+											onChange: (event) => setAddForm({ ...addForm, url: event.target.value })
+										})
+									]
+								}),
+								(0, react_jsx_runtime.jsxs)("label", {
+									className: c.dscField,
+									children: [
+										(0, react_jsx_runtime.jsx)("span", { className: c.dscLabel, children: t("discoverRepoRef") }),
+										(0, react_jsx_runtime.jsx)("input", {
+											className: c.dscInput,
+											value: addForm.ref,
+											placeholder: t("discoverRepoRefPlaceholder"),
+											onChange: (event) => setAddForm({ ...addForm, ref: event.target.value })
+										})
+									]
+								}),
+								(0, react_jsx_runtime.jsxs)("label", {
+									className: c.dscField,
+									children: [
+										(0, react_jsx_runtime.jsx)("span", { className: c.dscLabel, children: t("discoverRepoSubdir") }),
+										(0, react_jsx_runtime.jsx)("input", {
+											className: c.dscInput,
+											value: addForm.subdirectory,
+											placeholder: t("discoverRepoSubdirPlaceholder"),
+											onChange: (event) => setAddForm({ ...addForm, subdirectory: event.target.value })
+										})
+									]
+								}),
+								// 隐藏目录默认不扫：多数隐藏目录是工具配置，扫进去只会让清单变脏。
+								// 少数仓库把技能镜像在 .openclaw/skills 之类的位置，需要时手动勾上。
+								(0, react_jsx_runtime.jsxs)("label", {
+									className: c.dscCheck,
+									children: [
+										(0, react_jsx_runtime.jsx)("input", {
+											type: "checkbox",
+											checked: addForm.includeHidden === true,
+											onChange: (event) => setAddForm({ ...addForm, includeHidden: event.target.checked })
+										}),
+										(0, react_jsx_runtime.jsx)("span", { children: t("discoverRepoIncludeHidden") }),
+										(0, react_jsx_runtime.jsx)("span", { className: c.dscCheckHint, children: t("discoverRepoIncludeHiddenHint") })
+									]
+								}),
+								(0, react_jsx_runtime.jsx)("p", { className: c.dscFooter, children: t("discoverRepoAddHint") })
+							]
+						}),
+						(0, react_jsx_runtime.jsxs)("div", {
+							className: c.dscModalActions,
+							children: [
+								(0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: c.dscBtn,
+									disabled: isBusy("add"),
+									onClick: () => setAddOpen(false),
+									children: t("discoverCancel")
+								}),
+								(0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: c.dscBtn,
+									"data-primary": "true",
+									disabled: isBusy("add") || addForm.url.trim() === "",
+									onClick: submitAdd,
+									children: isBusy("add") ? t("discoverRepoSaveBusy") : t("discoverRepoSave")
+								})
+							]
+						})
+					]
+				})
+			}) : null;
+
+			// 目录详情弹窗
+			const catalogDetailModal = catalogDetailState === null ? null : (0, react_jsx_runtime.jsx)("div", {
+				className: c.scopeOverlay,
+				role: "presentation",
+				onClick: closeOnBackdrop(() => setCatalogDetailState(null), false),
+				children: (0, react_jsx_runtime.jsxs)("div", {
+					className: c.scopeBox,
+					role: "dialog",
+					"aria-modal": "true",
+					"aria-label": t("discoverDetail"),
+					style: { maxWidth: 720 },
+					children: [
+						(0, react_jsx_runtime.jsx)("h4", { children: catalogDetailState.item.name }),
+						catalogDetailState.status === "loading" ? (0, react_jsx_runtime.jsx)("p", { className: c.dscFooter, children: t("discoverDetailLoading") }) : null,
+						catalogDetailState.status === "error" ? (0, react_jsx_runtime.jsx)("div", {
+							className: c.dscNotice,
+							"data-kind": "error",
+							children: t("discoverDetailError") + " " + (catalogDetailState.error ?? "")
+						}) : null,
+						catalogDetailState.status === "ready" ? (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+							(0, react_jsx_runtime.jsx)("p", { className: c.dscFooter, children: catalogDetailState.detail.description }),
+							(0, react_jsx_runtime.jsx)("pre", { className: c.dscBody, children: catalogDetailState.detail.body })
+						] }) : null,
+						(0, react_jsx_runtime.jsxs)("div", {
+							className: c.dscModalActions,
+							children: [
+								(0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: c.dscBtn,
+									onClick: () => setCatalogDetailState(null),
+									children: t("discoverClose")
+								}),
+								catalogDetailState.status === "ready" ? (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: c.dscBtn,
+									"data-primary": "true",
+									disabled: !destReady,
+									onClick: () => {
+										runInstallCatalog(catalogDetailState.item);
+										setCatalogDetailState(null);
+									},
+									children: t("discoverInstall")
+								}) : null
+							]
+						})
+					]
+				})
+			});
+
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: c.dscSection,
+				"data-tab": "discover",
+				children: [header, noticeNode, source === "repo" ? repoPanel : catalogPanel, addModal, catalogDetailModal]
+			});
+		}
+
 function SkillsSection(props) {
 			const { t, currentSessionId, subscribeSession, useSessions, listSkills, loadContent, setSkillEnabled, removeSkill, addSkill, listWorkspaces, openFolder, batchMigrateSkill, listGroups, saveGroupSkill, deleteGroupSkill } = props;
 			// 当前会话 id，仅用于会话级项目作用域与「随会话刷新列表」，
@@ -1757,7 +3060,7 @@ function SkillsSection(props) {
 			// ── v2.1.6 三栏外壳相关状态 ───────────────────────────────────────
 			// 中栏两种维度（分组 / 来源）；两者各自记筛选值，切换回来不丢。
 			const [paneMode, setPaneMode] = react.useState("groups");
-			const [providerFilter, setProviderFilter] = react.useState("all");
+			const [sourceFilter, setSourceFilter] = react.useState("all");
 			// 批量模式：勾选框 + 底部操作栏（迁移到… / 取消）。
 			const [batchMode, setBatchMode] = react.useState(false);
 			const [selected, setSelected] = react.useState(() => new Set());
@@ -2192,7 +3495,7 @@ function SkillsSection(props) {
 					setGroupsList(rows);
 					setPaneMode("groups");
 					if (editor.scope === scopeFilter) setGroupFilter(trimmed);
-					setProviderFilter("all");
+					setSourceFilter("all");
 					setGroupEditor(null);
 					reloadAfterHot();
 				}, (error) => {
@@ -2392,18 +3695,66 @@ function SkillsSection(props) {
 			const countOfScope = (scopeKey) => (scopeKey === "global" ? t("scopeGlobal") : labelOf(scopeKey));
 
 			// ── 中栏：分组（默认）或来源（#42）────────────────────────────────
-			// 来源 = 技能的 provider；pluginProvided 的技能归到「插件自带」一组。
-			const PROVIDER_PLUGIN = "\u0000plugin";
-			const PROVIDER_PREFIX = "\u0000provider:";
-			const providerKeyOf = (skill) => (skill.pluginProvided === true ? PROVIDER_PLUGIN : PROVIDER_PREFIX + (typeof skill.provider === "string" && skill.provider !== "" ? skill.provider : t("paneProviderUnknown")));
-			const providerLabelOf = (key) => (key === PROVIDER_PLUGIN ? t("panePluginProvided") : key.slice(PROVIDER_PREFIX.length));
+			//
+			// 「来源」按**技能根**分，不按 provider 分。
+			// provider 是技术实现细节（filesystem / nested / dsh-office…），用户看不懂，
+			// 也无法据此判断「这个技能是谁装的、放在哪」。真正有意义的是：
+			//   - 它落在哪个技能根：DSH skills / 公共 Agent / 某个工作区 / 插件随包自带；
+			//   - 如果是「发现技能」装来的，再细分到具体来源（仓库 / ClawHub / skills.sh）。
+			//
+			// skill.source 由宿主按技能根打标（user-dsh / user-agents / project-dsh /
+			// project-agents / bundled / runtime），正好是这一层语义。
+			const SOURCE_PLUGIN = "\u0000plugin";
+			const SOURCE_PREFIX = "\u0000source:";
+			const ROOT_LABELS = {
+				"user-dsh": "srcRootDsh",
+				"user-agents": "srcRootAgents",
+				"project-dsh": "srcRootProjectDsh",
+				"project-agents": "srcRootProjectAgents",
+				"bundled": "srcRootBundled",
+				"runtime": "srcRootRuntime"
+			};
+			const sourceKeyOf = (skill) => {
+				// 插件自带技能：按**具体插件**分组，而不是笼统塞进「插件自带」。
+				// 勾上「显示插件技能」后列表里会一次冒出十几个改不动的技能，
+				// 只说「插件自带」等于没说——用户要知道是哪个包带来的。
+				if (skill.pluginProvided === true) {
+					const owner = typeof skill.pluginOwner === "string" && skill.pluginOwner !== "" ? skill.pluginOwner : "";
+					return SOURCE_PLUGIN + ":" + (owner === "" ? "" : owner);
+				}
+				const source = typeof skill.source === "string" && skill.source !== "" ? skill.source : "";
+				return SOURCE_PREFIX + (source === "" ? "unknown" : source);
+			};
+			const sourceLabelOf = (key) => {
+				if (key.startsWith(SOURCE_PLUGIN)) {
+					const owner = key.slice(SOURCE_PLUGIN.length + 1);
+					return owner === "" ? t("panePluginProvided") : owner;
+				}
+				const source = key.slice(SOURCE_PREFIX.length);
+				const localeKey = ROOT_LABELS[source];
+				if (localeKey !== undefined) return t(localeKey);
+				if (source === "unknown") return t("paneProviderUnknown");
+				return source;
+			};
+			/** 来源分组的补充说明：是「发现技能」装来的就标出具体来源。 */
+			const sourceHintOf = (key) => {
+				if (key.startsWith(SOURCE_PLUGIN)) return "";
+				const source = key.slice(SOURCE_PREFIX.length);
+				if (source === "unknown") return "";
+				const hits = scoped.filter((skill) => sourceKeyOf(skill) === key && skill.origin !== undefined);
+				if (hits.length === 0) return "";
+				// 同组内来源可能不同（例如 DSH skills 里既有仓库装也有手工放的），
+				// 只在整组都来自同一来源时才给出具体名字。
+				const labels = [...new Set(hits.map((skill) => skill.origin.label))];
+				return labels.length === 1 ? labels[0] : "";
+			};
 			const sourceCounts = new Map();
 			for (const skill of scoped) {
-				const key = providerKeyOf(skill);
+				const key = sourceKeyOf(skill);
 				sourceCounts.set(key, (sourceCounts.get(key) ?? 0) + 1);
 			}
 			const grouped = paneMode === "provider"
-				? (providerFilter === "all" ? scoped : scoped.filter((skill) => providerKeyOf(skill) === providerFilter))
+				? (sourceFilter === "all" ? scoped : scoped.filter((skill) => sourceKeyOf(skill) === sourceFilter))
 				: (groupFilter === "all" ? scoped : scoped.filter((skill) => (Array.isArray(skill.groups) ? skill.groups : []).includes(groupFilter)));
 			// 「未分组」：不属于当前作用域里任何一个分组的技能。
 			const groupedNames = new Set();
@@ -2423,22 +3774,22 @@ function SkillsSection(props) {
 				? [
 					{ key: "all", label: t("groupAll"), count: scoped.length },
 					...[...sourceCounts.entries()]
-						.sort((left, right) => right[1] - left[1] || providerLabelOf(left[0]).localeCompare(providerLabelOf(right[0])))
-						.map(([key, count]) => ({ key: key, label: providerLabelOf(key), count: count }))
+						.sort((left, right) => right[1] - left[1] || sourceLabelOf(left[0]).localeCompare(sourceLabelOf(right[0])))
+						.map(([key, count]) => ({ key: key, label: sourceLabelOf(key), count: count, hint: sourceHintOf(key) }))
 				]
 				: [
 					{ key: "all", label: t("groupAll"), count: scoped.length },
 					...scopeGroupRows.map((group) => ({ key: group.name, label: group.name, count: membersOfGroup(group).length, group })),
 					...(showUngrouped ? [{ key: "", label: t("paneUngrouped"), count: ungroupedCount }] : [])
 				];
-			const activePaneKey = paneMode === "provider" ? providerFilter : groupFilter;
+			const activePaneKey = paneMode === "provider" ? sourceFilter : groupFilter;
 			// 「未分组」行消失时不能把列表留在那个看不见的筛选上：所有技能都进了分组、
 			// 或者用户把分组删光了，都要退回「全部」。
 			react.useEffect(() => {
 				if (paneMode === "groups" && groupFilter === "" && !showUngrouped) setGroupFilter("all");
 			}, [paneMode, groupFilter, showUngrouped]);
 			const selectPaneRow = (key) => {
-				if (paneMode === "provider") setProviderFilter(key);
+				if (paneMode === "provider") setSourceFilter(key);
 				else setGroupFilter(key);
 				setBatchMenuOpen(false);
 				setBatchGroupOpen(false);
@@ -2615,7 +3966,7 @@ function SkillsSection(props) {
 			// 切换工作区：分组/来源筛选归位，批量选择作废（选择是按作用域算的）。
 			react.useEffect(() => {
 				setGroupFilter("all");
-				setProviderFilter("all");
+				setSourceFilter("all");
 				setSelected(new Set());
 				setBatchMode(false);
 				setBatchMenuOpen(false);
@@ -2706,10 +4057,15 @@ function SkillsSection(props) {
 								if (batchMode) toggleSelected(skill.name);
 								else toggle(skill);
 							},
-							children: [(0, react_jsx_runtime.jsx)("span", {
+							children: [(0, react_jsx_runtime.jsxs)("span", {
 								className: c.rowName,
 								"data-disabled": enabled ? void 0 : "true",
-								children: skill.name
+								children: [skill.name, skill.pluginProvided === true && typeof skill.pluginOwner === "string" && skill.pluginOwner !== "" ? (0, react_jsx_runtime.jsx)("span", {
+									className: c.originTag,
+									"data-kind": "plugin",
+									title: t("srcPluginOwnerHint").replace("{owner}", skill.pluginOwner),
+									children: skill.pluginOwner
+								}) : null, (0, react_jsx_runtime.jsx)(SkillOriginTag, { t, origin: skill.origin, installedFrom: skill.installedFrom })]
 							}), typeof skill.description === "string" && skill.description !== "" ? (0, react_jsx_runtime.jsx)("span", {
 								className: c.rowDesc,
 								children: skill.description
@@ -3071,11 +4427,14 @@ function SkillsSection(props) {
 									className: c.groupItem,
 									"data-active": activePaneKey === row.key ? "true" : void 0,
 									"aria-pressed": activePaneKey === row.key,
-									title: row.label,
+									title: row.hint !== undefined && row.hint !== "" ? row.label + " · " + row.hint : row.label,
 									onClick: () => {
 										selectPaneRow(row.key);
 									},
-									children: [row.label, (0, react_jsx_runtime.jsx)("span", {
+									children: [row.label, row.hint !== undefined && row.hint !== "" ? (0, react_jsx_runtime.jsx)("span", {
+										className: c.groupItemHint,
+										children: row.hint
+									}) : null, (0, react_jsx_runtime.jsx)("span", {
 										className: c.groupItemCount,
 										children: String(row.count)
 									})]
@@ -3575,6 +4934,17 @@ migrator !== null ? (0, react_jsx_runtime.jsx)(MigrateDialog, {
                 // ── MCP 面板：字典 / 样式 / 表单 / 卡片 ────────────────────────────
                 const MCP_NS = "settings.mcp";
                 const mcpZh = {
+                        configGlobal: "全局 patch",
+                        configProfile: "当前 profile",
+                        configReadOnly: "全局配置只读；请在其原始 patch 中修改，面板不会改写 profile 同名条目。",
+                        configGlobalError: "全局 MCP 配置读取失败：",
+                        schemaConflictTitle: "检测到 {count} 个工具的 schema 会让模型调用报错",
+                        schemaConflictLead: "这些工具的 pattern 里带 \\uD800-\\uDFFF 转义，DeepSeek 接口判定它不是合法 regex，会让**整轮对话**失败（不只是这些工具）。把它们从模型可见清单里摘掉即可：工具仍在 MCP 服务里，面板里也能看到，只是不再下发给模型。",
+                        schemaConflictApply: "保存并禁用这些工具",
+                        schemaConflictBusy: "正在保存…",
+                        schemaConflictApplied: "已禁用 {count} 个工具；新的对话将不再下发它们。",
+                        schemaConflictDismiss: "稍后处理",
+                        schemaConflictFailed: "写回失败：",
                         nav: "MCP",
                         back: "返回会话",
                         title: "MCP 服务器",
@@ -3762,6 +5132,17 @@ authStdioHint: "stdio 服务器的令牌没有单独的认证项——写在这�
                         foreignMore: "等"
                 };
                 const mcpEn = {
+                        configGlobal: "Global patch",
+                        configProfile: "Current profile",
+                        configReadOnly: "Global configuration is read-only; edit its original patch. This panel will not change a same-named profile entry.",
+                        configGlobalError: "Unable to read global MCP configuration: ",
+                        schemaConflictTitle: "{count} tool schemas will break model calls",
+                        schemaConflictLead: "Their patterns contain \\uD800-\\uDFFF escapes, which the DeepSeek API rejects as an invalid regex — that fails the **whole turn**, not just those tools. Hiding them from the model-visible list fixes it: the tools stay in the MCP server and remain visible here, they are simply no longer sent to the model.",
+                        schemaConflictApply: "Save and disable these tools",
+                        schemaConflictBusy: "Saving…",
+                        schemaConflictApplied: "Disabled {count} tools; new turns will no longer send them.",
+                        schemaConflictDismiss: "Later",
+                        schemaConflictFailed: "Failed to save: ",
                         nav: "MCP",
                         back: "Back to session",
                         title: "MCP Servers",
@@ -3950,7 +5331,7 @@ authStdioHint: "stdio servers have no separate auth field — put the token in t
                 };
 
                 const cssMcpEffects = "@keyframes skvFadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}@keyframes skvFadeOnly{from{opacity:0}to{opacity:1}}.MCP_card{transition:border-color .18s cubic-bezier(.22,.61,.36,1),box-shadow .18s ease}.MCP_card:hover{border-color:var(--dsw-alias-border-l1);box-shadow:var(--dsw-shadow-lv1)}.MCP_dot{transition:background-color .2s ease}.MCP_input,.MCP_textarea{transition:border-color .15s ease,box-shadow .15s ease}.MCP_transportBtn{transition:background-color .15s ease,border-color .15s ease,color .15s ease}.MCP_actionBtn,.MCP_dangerBtn,.MCP_iconBtn,.MCP_add,.MCP_advancedToggle{transition:background-color .15s ease,border-color .15s ease,transform .1s ease}.MCP_actionBtn:active:not(:disabled),.MCP_dangerBtn:active:not(:disabled),.MCP_iconBtn:active,.MCP_add:active{transform:scale(.96)}.MCP_actionBtn:focus-visible,.MCP_dangerBtn:focus-visible,.MCP_iconBtn:focus-visible,.MCP_add:focus-visible,.MCP_transportBtn:focus-visible{outline:2px solid var(--dsw-alias-state-business-primary);outline-offset:1px}.MCP_cards{animation:skvFadeOnly .2s ease}.MCP_result{animation:skvFadeIn .18s ease}@media (prefers-reduced-motion: reduce){.MCP_section *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}.MCP_doc{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-1);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;animation:skvFadeIn .18s ease}.MCP_doc h4{font-size:13px;font-weight:600;line-height:20px;margin:0}.MCP_doc p{margin:0;color:var(--dsw-alias-label-secondary);font-size:12px;line-height:19px}.MCP_docCode{margin:0;background:var(--dsw-alias-bg-layer-3);border:1px solid var(--dsw-alias-border-l2);border-radius:8px;padding:8px 10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11.5px;line-height:17px;color:var(--dsw-alias-label-primary);white-space:pre-wrap;word-break:break-all;overflow-x:auto}";
-const cssMcp = ".MCP_section{position:relative;width:100%;max-width:760px;color:var(--dsw-alias-label-primary);display:flex;flex-direction:column;gap:14px}.MCP_head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.MCP_head h3{font-size:14px;font-weight:600;line-height:20px;margin:0}.MCP_sub{color:var(--dsw-alias-label-tertiary);font-size:12px;line-height:18px;margin:0}.MCP_toolbar{display:flex;align-items:center;gap:8px}.MCP_groupRow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.MCP_groupChip{font:inherit;font-size:12px;line-height:18px;padding:3px 10px;border-radius:999px;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-secondary);cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:background-color .18s ease,border-color .18s ease,color .18s ease}.MCP_groupChip:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}.MCP_groupChip[data-active=true]{color:var(--dsw-alias-state-business-primary);border-color:var(--dsw-alias-state-business-primary);background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 12%, transparent)}.MCP_groupChipCount{font-size:11px;opacity:.75;font-variant-numeric:tabular-nums}.MCP_add{font:inherit;color:var(--dsw-alias-state-business-primary);cursor:pointer;background:0 0;border:1px dashed var(--dsw-alias-border-l1);border-radius:8px;padding:7px 16px;font-size:13px;line-height:20px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}.MCP_add:hover{background:var(--dsw-alias-interactive-bg-hover)}.MCP_cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.MCP_card{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-3);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;min-width:0}.MCP_cardTop{display:flex;align-items:center;gap:8px;min-width:0}.MCP_name{font-size:13px;font-weight:600;line-height:20px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.MCP_badges{display:inline-flex;align-items:center;gap:6px;flex:none}.MCP_badge{background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-secondary);border-radius:5px;padding:1px 6px;font-size:11px;line-height:16px}.MCP_badgeBtn{font:inherit;cursor:pointer;border:1px solid color-mix(in srgb, var(--dsw-alias-state-warning-primary) 45%, transparent);background:color-mix(in srgb, var(--dsw-alias-state-warning-primary) 12%, transparent);color:var(--dsw-alias-state-warning-primary);border-radius:5px;padding:1px 6px;font-size:11px;line-height:16px;transition:background-color .18s ease}.MCP_badgeBtn:hover{background:color-mix(in srgb, var(--dsw-alias-state-warning-primary) 22%, transparent)}.MCP_meta{display:flex;align-items:center;gap:8px;color:var(--dsw-alias-label-secondary);font-size:12px;line-height:18px}.MCP_dot{width:7px;height:7px;border-radius:999px;background:var(--dsw-alias-label-tertiary);flex:none}.MCP_dot[data-on=true]{background:var(--dsw-alias-state-success-primary)}.MCP_dot[data-err=true]{background:var(--dsw-alias-state-error-primary)}.MCP_actions{display:flex;align-items:center;gap:8px;border-top:1px solid var(--dsw-alias-border-l2);padding-top:8px;flex-wrap:wrap}.MCP_spacer{flex:1}.MCP_form{display:grid;grid-template-columns:1fr 1fr;gap:10px}.MCP_field{display:flex;flex-direction:column;gap:5px}.MCP_field[data-wide=true]{grid-column:1 / -1}.MCP_label{font-size:12px;line-height:18px;color:var(--dsw-alias-label-secondary);margin:0}.MCP_input{box-sizing:border-box;width:100%;height:32px;font:inherit;font-size:13px;color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:8px;padding:0 8px}.MCP_input:focus-visible,.MCP_textarea:focus-visible{border-color:var(--dsw-alias-state-business-primary);box-shadow:0 0 0 2px color-mix(in srgb, var(--dsw-alias-state-business-primary) 18%, transparent);outline:none}.MCP_textarea{box-sizing:border-box;width:100%;min-height:64px;font:inherit;font-size:12px;line-height:18px;color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:8px;padding:6px 8px;resize:vertical}.MCP_transportRow{display:flex;gap:8px}.MCP_transportBtn{font:inherit;font-size:13px;line-height:20px;color:var(--dsw-alias-label-secondary);cursor:pointer;background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:999px;padding:4px 14px}.MCP_transportBtn[data-active=true]{color:var(--dsw-alias-state-business-primary);border-color:var(--dsw-alias-state-business-primary);background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 12%, transparent)}.MCP_secretKeys{display:flex;flex-wrap:wrap;gap:6px}.MCP_key{display:inline-flex;align-items:center;gap:6px;background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:999px;padding:2px 8px;font-size:11px;line-height:16px}.MCP_key button{font:inherit;color:var(--dsw-alias-state-error-primary);cursor:pointer;background:0 0;border:none;padding:0}.MCP_checkRow{display:flex;align-items:center;gap:8px;font-size:12px;line-height:18px;color:var(--dsw-alias-label-secondary)}.MCP_result{border:1px solid var(--dsw-alias-border-l2);border-radius:8px;padding:8px 10px;font-size:12px;line-height:18px;max-height:160px;overflow:auto}.MCP_actionBtn{font:inherit;color:var(--dsw-alias-label-primary);cursor:pointer;background:0 0;border:1px solid var(--dsw-alias-border-l2);border-radius:14px;padding:0 12px;font-size:12px;line-height:26px;height:28px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;box-sizing:border-box}.MCP_actionBtn:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover-solid)}.MCP_actionBtn:disabled{cursor:default;opacity:.6}.MCP_dangerBtn{font:inherit;color:var(--dsw-alias-state-error-primary);cursor:pointer;background:0 0;border:1px solid var(--dsw-alias-border-l2);border-radius:14px;padding:0 12px;font-size:12px;line-height:26px;height:28px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;box-sizing:border-box}.MCP_dangerBtn:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover-solid)}.MCP_iconBtn{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;color:var(--dsw-alias-label-secondary);cursor:pointer;background:0 0;border:1px solid var(--dsw-alias-border-l2);border-radius:6px;padding:0;flex:none}.MCP_iconBtn:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}.MCP_advancedToggle{font:inherit;color:var(--dsw-alias-label-secondary);cursor:pointer;background:0 0;border:1px dashed var(--dsw-alias-border-l1);border-radius:8px;padding:6px 12px;font-size:13px;line-height:20px}.MCP_advancedToggle:hover{background:var(--dsw-alias-interactive-bg-hover)}.MCP_result[data-ok=true]{border-color:color-mix(in srgb, var(--dsw-alias-state-success-primary) 40%, transparent);background:color-mix(in srgb, var(--dsw-alias-state-success-primary) 8%, transparent)}.MCP_result[data-ok=false]{border-color:color-mix(in srgb, var(--dsw-alias-state-error-primary) 40%, transparent);background:color-mix(in srgb, var(--dsw-alias-state-error-primary) 8%, transparent)}.MCP_hint{font-size:11px;line-height:16px;color:var(--dsw-alias-label-tertiary);margin:0}.MCP_hint[data-error=true]{color:var(--dsw-alias-state-error-primary)}.MCP_authBox{display:flex;flex-direction:column;gap:6px}.MCP_oauthInline{display:flex;flex-direction:column;gap:8px;padding:8px 10px;border:1px solid var(--dsw-alias-border-l2);border-radius:8px;background:var(--dsw-alias-bg-layer-1)}.MCP_oauthActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.MCP_toolsPanel{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--dsw-alias-border-l2);padding-top:8px}.MCP_scopeTabs{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.MCP_scopeTab{font:inherit;font-size:11.5px;line-height:16px;padding:3px 9px;border-radius:999px;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-secondary);cursor:pointer;transition:background-color .18s ease,border-color .18s ease,color .18s ease}.MCP_scopeTab[data-active=true]{color:var(--dsw-alias-state-business-primary);border-color:var(--dsw-alias-state-business-primary);background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 12%, transparent)}.MCP_toolsList{display:flex;flex-direction:column;gap:2px;max-height:260px;overflow-y:auto;scrollbar-width:thin;border:1px solid var(--dsw-alias-border-l2);border-radius:8px;padding:4px 8px}.MCP_toolRow{display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:18px;padding:5px 0;cursor:pointer;min-width:0;border-bottom:1px solid color-mix(in srgb, var(--dsw-alias-border-l2) 45%, transparent)}.MCP_toolRow:last-child{border-bottom:none}.MCP_toolRow input{margin:2px 0 0;accent-color:var(--dsw-alias-state-business-primary);flex:none}.MCP_toolInfo{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}.MCP_toolName{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:ui-monospace,SFMono-Regular,Consolas,Menlo,monospace;font-size:11.5px}.MCP_toolDesc{font-size:11px;line-height:15px;color:var(--dsw-alias-label-secondary);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:break-word}.MCP_toolsActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.MCP_rawText{box-sizing:border-box;width:100%;min-height:240px;font-family:ui-monospace,SFMono-Regular,Consolas,Menlo,monospace;font-size:12px;line-height:18px;white-space:pre;tab-size:2}"
+const cssMcp = ".MCP_section{position:relative;width:100%;max-width:760px;color:var(--dsw-alias-label-primary);display:flex;flex-direction:column;gap:14px}.MCP_head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.MCP_head h3{font-size:14px;font-weight:600;line-height:20px;margin:0}.MCP_sub{color:var(--dsw-alias-label-tertiary);font-size:12px;line-height:18px;margin:0}.MCP_toolbar{display:flex;align-items:center;gap:8px}.MCP_groupRow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.MCP_groupChip{font:inherit;font-size:12px;line-height:18px;padding:3px 10px;border-radius:999px;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-secondary);cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:background-color .18s ease,border-color .18s ease,color .18s ease}.MCP_groupChip:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}.MCP_groupChip[data-active=true]{color:var(--dsw-alias-state-business-primary);border-color:var(--dsw-alias-state-business-primary);background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 12%, transparent)}.MCP_groupChipCount{font-size:11px;opacity:.75;font-variant-numeric:tabular-nums}.MCP_add{font:inherit;color:var(--dsw-alias-state-business-primary);cursor:pointer;background:0 0;border:1px dashed var(--dsw-alias-border-l1);border-radius:8px;padding:7px 16px;font-size:13px;line-height:20px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}.MCP_add:hover{background:var(--dsw-alias-interactive-bg-hover)}.MCP_cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.MCP_card{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-3);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;min-width:0}.MCP_cardTop{display:flex;align-items:center;gap:8px;min-width:0}.MCP_name{font-size:13px;font-weight:600;line-height:20px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.MCP_badges{display:inline-flex;align-items:center;gap:6px;flex:none}.MCP_badge{background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-secondary);border-radius:5px;padding:1px 6px;font-size:11px;line-height:16px}.MCP_badgeBtn{font:inherit;cursor:pointer;border:1px solid color-mix(in srgb, var(--dsw-alias-state-warning-primary) 45%, transparent);background:color-mix(in srgb, var(--dsw-alias-state-warning-primary) 12%, transparent);color:var(--dsw-alias-state-warning-primary);border-radius:5px;padding:1px 6px;font-size:11px;line-height:16px;transition:background-color .18s ease}.MCP_badgeBtn:hover{background:color-mix(in srgb, var(--dsw-alias-state-warning-primary) 22%, transparent)}.MCP_meta{display:flex;align-items:center;gap:8px;color:var(--dsw-alias-label-secondary);font-size:12px;line-height:18px}.MCP_dot{width:7px;height:7px;border-radius:999px;background:var(--dsw-alias-label-tertiary);flex:none}.MCP_dot[data-on=true]{background:var(--dsw-alias-state-success-primary)}.MCP_dot[data-err=true]{background:var(--dsw-alias-state-error-primary)}.MCP_actions{display:flex;align-items:center;gap:8px;border-top:1px solid var(--dsw-alias-border-l2);padding-top:8px;flex-wrap:wrap}.MCP_spacer{flex:1}.MCP_form{display:grid;grid-template-columns:1fr 1fr;gap:10px}.MCP_field{display:flex;flex-direction:column;gap:5px}.MCP_field[data-wide=true]{grid-column:1 / -1}.MCP_label{font-size:12px;line-height:18px;color:var(--dsw-alias-label-secondary);margin:0}.MCP_input{box-sizing:border-box;width:100%;height:32px;font:inherit;font-size:13px;color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:8px;padding:0 8px}.MCP_input:focus-visible,.MCP_textarea:focus-visible{border-color:var(--dsw-alias-state-business-primary);box-shadow:0 0 0 2px color-mix(in srgb, var(--dsw-alias-state-business-primary) 18%, transparent);outline:none}.MCP_textarea{box-sizing:border-box;width:100%;min-height:64px;font:inherit;font-size:12px;line-height:18px;color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:8px;padding:6px 8px;resize:vertical}.MCP_transportRow{display:flex;gap:8px}.MCP_transportBtn{font:inherit;font-size:13px;line-height:20px;color:var(--dsw-alias-label-secondary);cursor:pointer;background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:999px;padding:4px 14px}.MCP_transportBtn[data-active=true]{color:var(--dsw-alias-state-business-primary);border-color:var(--dsw-alias-state-business-primary);background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 12%, transparent)}.MCP_secretKeys{display:flex;flex-wrap:wrap;gap:6px}.MCP_key{display:inline-flex;align-items:center;gap:6px;background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:999px;padding:2px 8px;font-size:11px;line-height:16px}.MCP_key button{font:inherit;color:var(--dsw-alias-state-error-primary);cursor:pointer;background:0 0;border:none;padding:0}.MCP_checkRow{display:flex;align-items:center;gap:8px;font-size:12px;line-height:18px;color:var(--dsw-alias-label-secondary)}.MCP_result{border:1px solid var(--dsw-alias-border-l2);border-radius:8px;padding:8px 10px;font-size:12px;line-height:18px;max-height:160px;overflow:auto}.MCP_actionBtn{font:inherit;color:var(--dsw-alias-label-primary);cursor:pointer;background:0 0;border:1px solid var(--dsw-alias-border-l2);border-radius:14px;padding:0 12px;font-size:12px;line-height:26px;height:28px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;box-sizing:border-box}.MCP_actionBtn:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover-solid)}.MCP_actionBtn:disabled{cursor:default;opacity:.6}.MCP_dangerBtn{font:inherit;color:var(--dsw-alias-state-error-primary);cursor:pointer;background:0 0;border:1px solid var(--dsw-alias-border-l2);border-radius:14px;padding:0 12px;font-size:12px;line-height:26px;height:28px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;box-sizing:border-box}.MCP_dangerBtn:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover-solid)}.MCP_iconBtn{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;color:var(--dsw-alias-label-secondary);cursor:pointer;background:0 0;border:1px solid var(--dsw-alias-border-l2);border-radius:6px;padding:0;flex:none}.MCP_iconBtn:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}.MCP_advancedToggle{font:inherit;color:var(--dsw-alias-label-secondary);cursor:pointer;background:0 0;border:1px dashed var(--dsw-alias-border-l1);border-radius:8px;padding:6px 12px;font-size:13px;line-height:20px}.MCP_advancedToggle:hover{background:var(--dsw-alias-interactive-bg-hover)}.MCP_result[data-ok=true]{border-color:color-mix(in srgb, var(--dsw-alias-state-success-primary) 40%, transparent);background:color-mix(in srgb, var(--dsw-alias-state-success-primary) 8%, transparent)}.MCP_result[data-ok=false]{border-color:color-mix(in srgb, var(--dsw-alias-state-error-primary) 40%, transparent);background:color-mix(in srgb, var(--dsw-alias-state-error-primary) 8%, transparent)}.MCP_hint{font-size:11px;line-height:16px;color:var(--dsw-alias-label-tertiary);margin:0}.MCP_hint[data-error=true]{color:var(--dsw-alias-state-error-primary)}.MCP_readOnlyHint{font-size:11px;line-height:16px;color:var(--dsw-alias-label-tertiary);max-width:260px}.MCP_authBox{display:flex;flex-direction:column;gap:6px}.MCP_oauthInline{display:flex;flex-direction:column;gap:8px;padding:8px 10px;border:1px solid var(--dsw-alias-border-l2);border-radius:8px;background:var(--dsw-alias-bg-layer-1)}.MCP_oauthActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.MCP_toolsPanel{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--dsw-alias-border-l2);padding-top:8px}.MCP_scopeTabs{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.MCP_scopeTab{font:inherit;font-size:11.5px;line-height:16px;padding:3px 9px;border-radius:999px;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-secondary);cursor:pointer;transition:background-color .18s ease,border-color .18s ease,color .18s ease}.MCP_scopeTab[data-active=true]{color:var(--dsw-alias-state-business-primary);border-color:var(--dsw-alias-state-business-primary);background:color-mix(in srgb, var(--dsw-alias-state-business-primary) 12%, transparent)}.MCP_toolsList{display:flex;flex-direction:column;gap:2px;max-height:260px;overflow-y:auto;scrollbar-width:thin;border:1px solid var(--dsw-alias-border-l2);border-radius:8px;padding:4px 8px}.MCP_toolRow{display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:18px;padding:5px 0;cursor:pointer;min-width:0;border-bottom:1px solid color-mix(in srgb, var(--dsw-alias-border-l2) 45%, transparent)}.MCP_toolRow:last-child{border-bottom:none}.MCP_toolRow input{margin:2px 0 0;accent-color:var(--dsw-alias-state-business-primary);flex:none}.MCP_toolInfo{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}.MCP_toolName{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:ui-monospace,SFMono-Regular,Consolas,Menlo,monospace;font-size:11.5px}.MCP_toolDesc{font-size:11px;line-height:15px;color:var(--dsw-alias-label-secondary);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:break-word}.MCP_toolsActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.MCP_rawText{box-sizing:border-box;width:100%;min-height:240px;font-family:ui-monospace,SFMono-Regular,Consolas,Menlo,monospace;font-size:12px;line-height:18px;white-space:pre;tab-size:2}"
 // 窄屏（Issue #71）：手机上 MCP 页的「一行两张卡片」和「两列表单」都只剩 ~200px，
 // 改单列；工具栏允许换行，别把「＋ 添加」挤到屏幕外。
 + "@media (max-width:640px){.MCP_cards{grid-template-columns:minmax(0,1fr)}.MCP_form{grid-template-columns:minmax(0,1fr)}.MCP_toolbar{flex-wrap:wrap}}"
@@ -4003,6 +5384,7 @@ const cssMcp = ".MCP_section{position:relative;width:100%;max-width:760px;color:
                         iconBtn: "MCP_iconBtn",
                         advancedToggle: "MCP_advancedToggle",
                         hint: "MCP_hint",
+                        readOnlyHint: "MCP_readOnlyHint",
 			authBox: "MCP_authBox",
 			oauthInline: "MCP_oauthInline",
 			oauthActions: "MCP_oauthActions",
@@ -4537,7 +5919,7 @@ function mcpWireScalar(text) {
                                 })
                         });
                 }
-                function McpSection({ t, listMcp, saveMcp, removeMcp, setEnabledMcp, testMcp, reloadMcp, oauthStart, oauthPoll, oauthRefresh, oauthDisconnect, listMcpTools, getToolFilter, setToolFilter, listMcpGroups, saveMcpGroup, deleteMcpGroup, listWorkspaces, currentSessionId, subscribeSession, useSessions, evacuateForeign, readRawMcp, writeRawMcp }) {
+                function McpSection({ t, listMcp, saveMcp, removeMcp, setEnabledMcp, testMcp, reloadMcp, oauthStart, oauthPoll, oauthRefresh, oauthDisconnect, listMcpTools, getToolFilter, setToolFilter, schemaConflicts, listMcpGroups, saveMcpGroup, deleteMcpGroup, listWorkspaces, currentSessionId, subscribeSession, useSessions, evacuateForeign, readRawMcp, writeRawMcp }) {
                         const selectMainSession = (state) => {
                                 const rows = state !== null && typeof state === "object" ? state.byId : undefined;
                                 if (rows === null || typeof rows !== "object") return undefined;
@@ -4598,6 +5980,8 @@ function mcpWireScalar(text) {
                         const [evacBusy, setEvacBusy] = react.useState(false);
                         // 原文编辑：表单没覆盖的字段（maxInstructionBytes 等）和手写 YAML 走这里。
                         const [rawEdit, setRawEdit] = react.useState(null);
+                        // 工具 schema 冲突提示（只读检测 → 用户点保存才写回禁用列表）。
+                        const [schemaConflict, setSchemaConflict] = react.useState(null);
                         // Issue #82：原文编辑弹层按 Esc 关闭（点遮罩在下面直接处理）。
                         useEscapeClose(() => setRawEdit(null), rawEdit !== null);
                         react.useEffect(() => {
@@ -4625,6 +6009,23 @@ function mcpWireScalar(text) {
                                                 });
                                         }).catch(() => {});
                                 }
+                                // 进页面即扫一遍工具 schema：坏 pattern 会让整轮对话被接口拒掉，
+                                // 而用户只看到「Invalid schema ... is not a regex」，很难自己联想到 MCP。
+                                // 这里只**提示 + 预填建议**，不自动写配置——写回必须由用户点保存。
+                                if (typeof schemaConflicts === "function") {
+                                        Promise.resolve().then(() => schemaConflicts()).then((result) => {
+                                                if (cancelled) return;
+                                                const conflicts = Array.isArray(result?.conflicts) ? result.conflicts : [];
+                                                setSchemaConflict(conflicts.length === 0 ? null : {
+                                                        conflicts,
+                                                        suggested: Array.isArray(result?.suggestedDeny) ? result.suggestedDeny : [],
+                                                        alreadyDenied: typeof result?.alreadyDenied === "number" ? result.alreadyDenied : 0,
+                                                        dismissed: false,
+                                                        busy: false,
+                                                        done: false
+                                                });
+                                        }).catch(() => {});
+                                }
                                 if (typeof listMcpGroups === "function") {
                                         Promise.resolve().then(() => listMcpGroups()).then((res) => {
                                                 if (cancelled) return;
@@ -4638,7 +6039,7 @@ function mcpWireScalar(text) {
                                         }).catch(() => {});
                                 }
                                 return () => { cancelled = true; };
-                        }, [listMcp, getToolFilter, listMcpGroups, listWorkspaces, request]);
+                        }, [listMcp, getToolFilter, schemaConflicts, listMcpGroups, listWorkspaces, request]);
                         react.useEffect(() => {
                                 if (confirming === null) return;
                                 const timer = setTimeout(() => setConfirming(null), 3000);
@@ -4734,7 +6135,7 @@ function mcpWireScalar(text) {
                                 }
                         };
                         // 卡片身份：有 entryId 用 entryId（serverName 可能重复），没有就用名字。
-                        const cardKey = (server) => (server.entryId !== undefined && server.entryId !== null && server.entryId !== "" ? String(server.entryId) : String(server.serverName));
+                        const cardKey = (server) => (server.entryId !== undefined && server.entryId !== null && server.entryId !== "" ? String(server.entryId) : String(server.serverName)) + "@" + (server.configLayer ?? "profile");
                         /**
                          * 卡片是否还带着可用的身份（serverName）。
                          *
@@ -5252,6 +6653,11 @@ function mcpWireScalar(text) {
                                                         children: [(0, react_jsx_runtime.jsx)("span", { className: m.name, children: server.serverName }), (0, react_jsx_runtime.jsxs)("span", {
                                                                 className: m.badges,
                                                                 children: [
+                                                                        (0, react_jsx_runtime.jsx)("span", {
+                                                                                className: m.badge,
+                                                                                title: server.configPath ?? "",
+                                                                                children: server.configLayer === "global" ? t("configGlobal") : t("configProfile")
+                                                                        }),
                                                                         (0, react_jsx_runtime.jsx)("span", { className: m.badge, children: server.transport === "streamable-http" ? "HTTP" : "STDIO" }),
                                                                         server.disabledExpr === true ? (0, react_jsx_runtime.jsx)("span", { className: m.badge, title: t("disabledExprHint"), children: t("disabledExprBadge") }) : null,
                                                                         server.transport === "streamable-http" && oauthWarn ? (0, react_jsx_runtime.jsx)("button", {
@@ -5296,7 +6702,10 @@ function mcpWireScalar(text) {
                                                                         onClick: () => applyToggle(server),
                                                                         children: (0, react_jsx_runtime.jsx)("span", { className: c.switchThumb })
                                                                 }), (0, react_jsx_runtime.jsx)("span", { className: c.switchText, children: t !== null ? (server.enabled ? t("stateEnabled") : t("stateDisabled")) : "" })]
-                                                        }), (0, react_jsx_runtime.jsx)("span", { className: m.spacer }), (0, react_jsx_runtime.jsx)("button", {
+                                                        }), (0, react_jsx_runtime.jsx)("span", { className: m.spacer }), server.readOnly === true ? (0, react_jsx_runtime.jsx)("span", {
+                                                                className: m.readOnlyHint,
+                                                                children: t("configReadOnly")
+                                                        }) : null, server.readOnly === true ? null : (0, react_jsx_runtime.jsx)("button", {
                                                                 type: "button",
                                                                 className: m.actionBtn,
                                                                 title: t !== null ? t("rawEditHint") : "",
@@ -5315,7 +6724,7 @@ function mcpWireScalar(text) {
                                                         	title: t("toolsButtonHint"),
                                                         	onClick: () => { openTools(server); },
                                                         	children: t("toolsButton")
-                                                        }), confirming === cardKey(server) ? (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, {
+                                                        }), server.readOnly === true ? null : (confirming === cardKey(server) ? (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, {
                                                         children: [
                                                                 (0, react_jsx_runtime.jsx)("button", {
                                                                         type: "button",
@@ -5336,7 +6745,7 @@ function mcpWireScalar(text) {
                                                         className: m.dangerBtn,
                                                         onClick: () => applyRemove(server),
                                                         children: t !== null ? t("delete") : ""
-                                                })]
+                                                }))]
                                                                                 }), oauthNotice !== null && oauthNotice !== undefined && oauthNotice.serverName === server.serverName ? (0, react_jsx_runtime.jsx)("div", {
                                                                                 	className: m.result,
                                                                                 	"data-ok": oauthNotice.ok ? "true" : "false",
@@ -5396,6 +6805,65 @@ function mcpWireScalar(text) {
                                         className: c.notice,
                                         "data-kind": "error",
                                         children: [(0, react_jsx_runtime.jsx)("span", { className: c.noticeText, children: t !== null ? t("patchBroken") + " " + (patch.error ?? "") : "" }), (0, react_jsx_runtime.jsx)("button", {
+                                                type: "button",
+                                                className: c.noticeButton,
+                                                onClick: () => refresh(true),
+                                                children: t !== null ? t("retry") : ""
+                                        })]
+                                }) : null, schemaConflict !== null && schemaConflict.dismissed !== true ? (0, react_jsx_runtime.jsxs)("div", {
+                                        className: c.notice,
+                                        "data-kind": "error",
+                                        role: "alert",
+                                        children: [
+                                                (0, react_jsx_runtime.jsxs)("span", {
+                                                        className: c.noticeText,
+                                                        children: [
+                                                                (0, react_jsx_runtime.jsx)("strong", { children: t("schemaConflictTitle").replace("{count}", String(schemaConflict.conflicts.length)) }),
+                                                                (0, react_jsx_runtime.jsx)("span", { style: { display: "block", marginTop: 4 }, children: t("schemaConflictLead") }),
+                                                                (0, react_jsx_runtime.jsx)("span", {
+                                                                        style: { display: "block", marginTop: 4, fontFamily: "ui-monospace,SFMono-Regular,Consolas,Menlo,monospace", fontSize: 11 },
+                                                                        children: schemaConflict.conflicts.slice(0, 6).map((item) => item.tool).join(", ") + (schemaConflict.conflicts.length > 6 ? " …" : "")
+                                                                }),
+                                                                schemaConflict.done === true ? (0, react_jsx_runtime.jsx)("span", {
+                                                                        style: { display: "block", marginTop: 4 },
+                                                                        children: t("schemaConflictApplied").replace("{count}", String(schemaConflict.suggested.length))
+                                                                }) : null,
+                                                                typeof schemaConflict.error === "string" && schemaConflict.error !== "" ? (0, react_jsx_runtime.jsx)("span", {
+                                                                        style: { display: "block", marginTop: 4 },
+                                                                        children: t("schemaConflictFailed") + schemaConflict.error
+                                                                }) : null
+                                                        ]
+                                                }),
+                                                schemaConflict.done === true ? null : (0, react_jsx_runtime.jsx)("button", {
+                                                        type: "button",
+                                                        className: c.noticeButton,
+                                                        disabled: schemaConflict.busy === true,
+                                                        onClick: () => {
+                                                                setSchemaConflict((prev) => prev === null ? prev : { ...prev, busy: true, error: null });
+                                                                const merged = [...new Set([...(toolDenyList ?? []), ...schemaConflict.suggested])];
+                                                                Promise.resolve().then(() => setToolFilter({ scopeKind: "global", deny: merged, allow: [] })).then((result) => {
+                                                                        const nextDeny = Array.isArray(result?.deny) ? result.deny : merged;
+                                                                        setToolDenyList(nextDeny);
+                                                                        setToolPolicy((prev) => ({ ...prev, deny: nextDeny }));
+                                                                        setSchemaConflict((prev) => prev === null ? prev : { ...prev, busy: false, done: true });
+                                                                }, (error) => {
+                                                                        setSchemaConflict((prev) => prev === null ? prev : { ...prev, busy: false, error: String(error?.message ?? error) });
+                                                                });
+                                                        },
+                                                        children: schemaConflict.busy === true ? t("schemaConflictBusy") : t("schemaConflictApply")
+                                                }),
+                                                (0, react_jsx_runtime.jsx)("button", {
+                                                        type: "button",
+                                                        className: c.noticeButton,
+                                                        onClick: () => setSchemaConflict((prev) => prev === null ? prev : { ...prev, dismissed: true }),
+                                                        children: t("schemaConflictDismiss")
+                                                })
+                                        ]
+                                }) : null, typeof data?.globalError === "string" && data.globalError !== "" ? (0, react_jsx_runtime.jsxs)("div", {
+                                        className: c.notice,
+                                        "data-kind": "error",
+                                        role: "alert",
+                                        children: [(0, react_jsx_runtime.jsx)("span", { className: c.noticeText, children: t("configGlobalError") + data.globalError }), (0, react_jsx_runtime.jsx)("button", {
                                                 type: "button",
                                                 className: c.noticeButton,
                                                 onClick: () => refresh(true),
@@ -5680,7 +7148,9 @@ function mcpWireScalar(text) {
 		const PANEL_TAB_KEY = "dsh-skill-mcp-panel:last-tab";
 		function readLastTab() {
 			try {
-				return typeof localStorage !== "undefined" && localStorage.getItem(PANEL_TAB_KEY) === "mcp" ? "mcp" : "skills";
+				if (typeof localStorage === "undefined") return "skills";
+				const stored = localStorage.getItem(PANEL_TAB_KEY);
+				return stored === "mcp" || stored === "discover" ? stored : "skills";
 			} catch {
 				return "skills";
 			}
@@ -5905,8 +7375,8 @@ function mcpWireScalar(text) {
 				}), (0, react_jsx_runtime.jsxs)("div", {
 					className: c.tabs,
 					role: "tablist",
-					children: [tabButton("skills", tr("nav")), tabButton("mcp", mt("nav"))]
-				}), tab === "mcp" ? (0, react_jsx_runtime.jsx)(McpSection, { ...props, t: mt }) : (0, react_jsx_runtime.jsx)(SkillsSection, { ...props })]
+					children: [tabButton("skills", tr("nav")), tabButton("discover", tr("navDiscover")), tabButton("mcp", mt("nav"))]
+				}), tab === "mcp" ? (0, react_jsx_runtime.jsx)(McpSection, { ...props, t: mt }) : tab === "discover" ? (0, react_jsx_runtime.jsx)(DiscoverSection, { ...props, t: tr }) : (0, react_jsx_runtime.jsx)(SkillsSection, { ...props })]
 			});
 		}
 
@@ -6000,7 +7470,18 @@ function mcpWireScalar(text) {
 				checkUpdateRemote: () => callRemote("checkUpdate"),
 				applyUpdateRemote: (payload) => callRemote("applyUpdate", payload),
 				removeSkill: (name, scope) => callRemote("deleteSkill", name, currentSessionId(), scope),
-				addSkill: (payload) => callRemote("addSkill", currentSessionId(), payload)
+				addSkill: (payload) => callRemote("addSkill", currentSessionId(), payload),
+				// ── 发现技能 ────────────────────────────────────────────────
+				listDiscover: () => callRemote("discoverState"),
+				addRepository: (payload) => callRemote("addRepository", payload),
+				refreshRepository: (payload) => callRemote("refreshRepository", payload),
+				removeRepository: (payload) => callRemote("removeRepository", payload),
+				installRepositorySkill: (payload) => callRemote("installRepositorySkill", payload),
+				searchCatalog: (payload) => callRemote("searchCatalog", payload),
+				listCatalog: (payload) => callRemote("listCatalog", payload),
+				catalogDetail: (payload) => callRemote("catalogDetail", payload),
+				installCatalogSkill: (payload) => callRemote("installCatalogSkill", payload),
+				uninstallDiscoverSkill: (payload) => callRemote("uninstallDiscoverSkill", payload)
 			});
 			const mcpSectionFace = () => ({
 				backToConversation,
@@ -6018,6 +7499,7 @@ function mcpWireScalar(text) {
 				oauthDisconnect: (payload) => callMcp("oauthDisconnect", payload),
 				listMcpTools: (payload) => callMcp("listTools", payload),
 				getToolFilter: () => callMcp("getToolFilter"),
+				schemaConflicts: () => callMcp("schemaConflicts"),
 				setToolFilter: (payload) => callMcp("setToolFilter", payload),
 				listMcpGroups: () => callMcp("listGroups"),
 				saveMcpGroup: (payload) => callMcp("saveGroup", payload),

@@ -34,6 +34,29 @@ assert.equal(gateway.isPluginProvided({ provider: "dsh-badge", source: "bundled"
 assert.equal(gateway.isPluginProvided({ provider: "some-plugin", path: "/home/u/.dsh/profiles/web/node_modules/some-plugin/skills/a/SKILL.md" }, roots), true);
 pass("plugin-provided skills are flagged for the show/hide switch");
 
+// 插件归属：勾选「显示插件技能」后要能看出技能是哪个包带来的。
+assert.equal(
+  gateway.pluginOwnerOf({ provider: "dsh-office", path: "/opt/dsh/resources/runtime/office-skills/docx/SKILL.md" }),
+  "dsh-office",
+  "provider 应作为包名兜底"
+);
+assert.equal(
+  gateway.pluginOwnerOf({ provider: "some-plugin", path: "/home/u/.dsh/profiles/web/node_modules/some-plugin/skills/a/SKILL.md" }),
+  "some-plugin",
+  "路径里的 node_modules/<包> 是最可靠证据"
+);
+assert.equal(
+  gateway.pluginOwnerOf({ provider: "scoped", path: "/x/node_modules/@scope/some-plugin/skills/a/SKILL.md" }),
+  "@scope/some-plugin",
+  "作用域包名要连 @scope 一起取"
+);
+assert.equal(
+  gateway.pluginOwnerOf({ provider: "filesystem", path: "/home/u/.dsh/skills/a/SKILL.md" }),
+  undefined,
+  "文件技能不该被当成插件自带"
+);
+pass("pluginOwnerOf resolves the owning package");
+
 // list() 端到端：真扫一个临时 DSH_HOME，注册表行与文件行都要带上 pluginProvided，
 // 并且整份 payload 必须过得了宿主边界的 strict codec。
 const dir = await mkdtemp(join(tmpdir(), "dsh-panel-origin-"));

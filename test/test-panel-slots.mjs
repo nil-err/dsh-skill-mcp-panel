@@ -207,20 +207,21 @@ check("the merged page owns the full-page shell", () => {
   assert.equal(page.props.className, "SKV_page", "main-slot page must own its own scroll/padding shell");
 });
 
-check("the page renders two tabs: 技能 and MCP", () => {
+check("the page renders three tabs: 技能、发现技能 and MCP", () => {
   const page = renderPage();
   const tabs = page.props.children[1];
   assert.equal(tabs.props.className, "SKV_tabs");
   assert.equal(tabs.props.role, "tablist");
   const labels = tabs.props.children.map((button) => button.props.children);
-  assert.deepEqual([...labels], ["技能", "MCP"]);
+  assert.deepEqual([...labels], ["技能", "发现技能", "MCP"]);
 });
 
 check("skills is the default tab when nothing was remembered", () => {
   storedTab = null;
   const page = renderPage();
-  const [skillsTab, mcpTab] = page.props.children[1].props.children;
+  const [skillsTab, discoverTab, mcpTab] = page.props.children[1].props.children;
   assert.equal(skillsTab.props["data-active"], "true");
+  assert.equal(discoverTab.props["data-active"], "false");
   assert.equal(mcpTab.props["data-active"], "false");
   // 第三个孩子是当前页签的正文：技能页签下必须是技能面板组件。
   assert.equal(page.props.children[2].type(page.props.children[2].props).props.className, "SKV_section");
@@ -229,9 +230,10 @@ check("skills is the default tab when nothing was remembered", () => {
 check("the remembered tab is reopened on the next mount", () => {
   storedTab = "mcp";
   const page = renderPage();
-  const [skillsTab, mcpTab] = page.props.children[1].props.children;
+  const [skillsTab, discoverTab, mcpTab] = page.props.children[1].props.children;
   assert.equal(mcpTab.props["data-active"], "true");
   assert.equal(skillsTab.props["data-active"], "false");
+  assert.equal(discoverTab.props["data-active"], "false");
   // MCP 正文：t 必须是 MCP 字典绑定（技能字典里没有 title 这个键的同一句话）。
   const body = page.props.children[2];
   assert.equal(body.type(body.props).props.className, "MCP_section");
@@ -241,11 +243,38 @@ check("the remembered tab is reopened on the next mount", () => {
 check("switching tabs writes the choice for next time", () => {
   storageWrites.length = 0;
   const page = renderPage();
-  const [skillsTab, mcpTab] = page.props.children[1].props.children;
+  const [skillsTab, discoverTab, mcpTab] = page.props.children[1].props.children;
   mcpTab.props.onClick();
   skillsTab.props.onClick();
   assert.deepEqual(storageWrites.map(([, value]) => value), ["mcp", "skills"]);
   assert.ok(storageWrites.every(([key]) => key === "dsh-skill-mcp-panel:last-tab"));
+});
+
+check("the discover tab renders its own section with three sub-sources", () => {
+  storedTab = "discover";
+  const page = renderPage();
+  const body = page.props.children[2];
+  assert.equal(typeof body.type, "function", "discover tab body must be a component");
+  const rendered = body.type(body.props);
+  assert.equal(rendered.props.className, "DSC_section", "discover page must own its own shell");
+  assert.equal(rendered.props["data-tab"], "discover");
+  // 第一个孩子是页头（含子来源页签），第二个是提示位，第三个是当前子来源正文。
+  const head = rendered.props.children[0];
+  const subtabs = head.props.children[1];
+  assert.equal(subtabs.props.className, "DSC_subtabs");
+  const labels = subtabs.props.children.map((button) => button.props.children);
+  assert.deepEqual([...labels], ["Git 仓库 (0)", "ClawHub", "skills.sh"]);
+  storedTab = null;
+});
+
+check("the discover tab is remembered across mounts", () => {
+  storedTab = "discover";
+  const page = renderPage();
+  const [skillsTab, discoverTab, mcpTab] = page.props.children[1].props.children;
+  assert.equal(discoverTab.props["data-active"], "true");
+  assert.equal(skillsTab.props["data-active"], "false");
+  assert.equal(mcpTab.props["data-active"], "false");
+  storedTab = null;
 });
 
 check("the merged panel offers a back arrow that returns to the conversation", () => {

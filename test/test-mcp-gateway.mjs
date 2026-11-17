@@ -103,6 +103,65 @@ assert.equal(exprOnDisk.includes("\"`Bearer"), false, "expression must not degra
   pass("gateway writes !!js expressions with their tag and reads them back");
   pass("gateway boundary codec defers payload validation to the handler");
 
+  // 7. 坏 schema 检测：zod 的 \uD800 转义会让 DeepSeek 接口拒掉整轮请求，
+  //    面板要能挑出这些工具并给出建议禁用清单（只读，不自动写配置）。
+  {
+    const badCtx = new Context();
+    badCtx.baseUrl = pathToFileURL(dir).href + "/";
+    badCtx.provide("loader", { entries: function* () {} });
+    badCtx.provide("tools", {
+      schemas: () => [
+        { name: "mcp__rea__binary_session", parameters: { type: "object", properties: { p: { allOf: [{ pattern: "^[^\\uD800-\\uDFFF]*$" }] } } } },
+        { name: "mcp__rea__binary_list", parameters: { type: "object", properties: { d: { type: "string" } } } },
+        { name: "read_file", parameters: { type: "object" } }
+      ]
+    });
+    const badGateway = new McpManagerGateway(badCtx);
+    const conflicts = await badGateway.schemaConflicts();
+    assert.equal(conflicts.conflicts.length, 1, "只挑出带代理对转义的那个工具");
+    assert.equal(conflicts.conflicts[0].tool, "mcp__rea__binary_session");
+    assert.deepEqual([...conflicts.suggestedDeny], ["mcp__rea__binary_session"]);
+    assert.equal(conflicts.conflicts.some((c) => c.tool === "mcp__rea__binary_list"), false, "正常工具不得误报");
+    pass("gateway detects surrogate-escape patterns without false positives");
+  }
+
+  // 7. 双层配置：全局 ~/.dsh/cordis.patch.yml 的 MCP 也要列出，并标明来源层级。
+  //    背景：rea 把 MCP 写进 home 层，面板只读 profile 层 → 用户看不到（2026-11-05）。
+  {
+    const home = await mkdtemp(join(tmpdir(), "dsh-panel-home-"));
+    await writeFile(
+      join(home, "cordis.patch.yml"),
+      "- insert:\n" +
+        "    - id: rea-mcp\n" +
+        '      name: "@deepseek-ai/dsh-mcp-client"\n' +
+        "      config:\n" +
+        "        serverName: rea\n" +
+        "        transport: stdio\n" +
+        "        command: node\n"
+    );
+    // 同一 ctx 不能重复注册同名服务，这里另起一个只带 patch 的最小 ctx。
+    const layeredCtx = new Context();
+    layeredCtx.baseUrl = pathToFileURL(dir).href + "/";
+    layeredCtx.provide("loader", { entries: function* () {} });
+    layeredCtx.provide("tools", { schemas() { return []; } });
+    const layered = new McpManagerGateway(layeredCtx);
+    layered.dshHomeOf = () => home;
+    const list = await layered.list();
+    const profileRows = list.servers.filter((server) => server.configLayer === "profile");
+    const globalRows = list.servers.filter((server) => server.configLayer === "global");
+    assert.equal(profileRows.length >= 1, true, "profile 行必须仍在");
+    assert.equal(globalRows.length, 1, "全局 patch 里的 MCP 必须列出来");
+    assert.equal(globalRows[0].serverName, "rea");
+    assert.equal(globalRows[0].readOnly, true, "全局配置只读：面板不能改写别的层级");
+    assert.equal(globalRows[0].configPath, join(home, "cordis.patch.yml"));
+    assert.equal(mcpListResultSchema.parse(list).servers.length, list.servers.length);
+    // 同名但不同层级：两张卡必须能区分（否则点错就写错文件）。
+    const sameName = await layered.list();
+    assert.equal(sameName.servers.every((server) => server.configLayer === "global" || server.configLayer === "profile"), true);
+    await rm(home, { recursive: true, force: true });
+    pass("gateway lists global-layer MCP servers as read-only, tagged by config layer");
+  }
+
   // 7.【#46】受管块里混进外来行：list 必须报给界面，save 不得把它折叠进 insert
   const mixedPath = join(dir, "cordis.patch.yml");
   const before = await readFile(mixedPath, "utf8");
