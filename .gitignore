@@ -5,3 +5,6 @@ pnpm-lock.yaml
 FUSION_HANDOFF.md
 HANDOFF.md
 dsh-skill-mcp-panel-融合开发规划.md
+
+# 本地 npm install 产物（仓库用 pnpm，见 pnpm-lock.yaml）
+package-lock.json

@@ -145,11 +145,11 @@ const batchCalls = [];
 const addCalls = [];
 const deleted = [];
 const skills = [
-  { name: "alpha", description: "A 技能", provider: "filesystem", source: "user", enabled: true, pluginProvided: false, rel: "alpha/SKILL.md", scope: { kind: "global" } },
-  { name: "beta", description: "B 技能", provider: "nested", source: "user", enabled: false, pluginProvided: false, rel: "cat/beta/SKILL.md", scope: { kind: "global" }, groups: ["g1"] },
-  { name: "gamma", description: "G 技能", provider: "bundled", source: "bundled", enabled: true, pluginProvided: true, rel: "", scope: { kind: "global" } },
-  { name: "delta", description: "D 技能", provider: "filesystem", source: "user", enabled: true, pluginProvided: false, rel: "delta/SKILL.md", scope: { kind: "workspace", path: "C:/proj/one" }, groups: ["g2"] },
-  { name: "omega", description: "O 技能", provider: "filesystem", source: "user", enabled: true, pluginProvided: false, rel: "omega/SKILL.md", scope: { kind: "global" } }
+  { name: "alpha", description: "A 技能", provider: "filesystem", source: "user-dsh", enabled: true, pluginProvided: false, rel: "alpha/SKILL.md", scope: { kind: "global" } },
+  { name: "beta", description: "B 技能", provider: "nested", source: "user-agents", enabled: false, pluginProvided: false, rel: "cat/beta/SKILL.md", scope: { kind: "global" }, groups: ["g1"] },
+  { name: "gamma", description: "G 技能", provider: "dsh-badge", source: "bundled", enabled: true, pluginProvided: true, pluginOwner: "dsh-badge", rel: "", scope: { kind: "global" } },
+  { name: "delta", description: "D 技能", provider: "filesystem", source: "project-dsh", enabled: true, pluginProvided: false, rel: "delta/SKILL.md", scope: { kind: "workspace", path: "C:/proj/one" }, groups: ["g2"] },
+  { name: "omega", description: "O 技能", provider: "filesystem", source: "user-dsh", enabled: true, pluginProvided: false, rel: "omega/SKILL.md", scope: { kind: "global" } }
 ];
 const ctx = {
   effect: (fn) => { const d = fn(); return typeof d === "function" ? d : () => {}; },
@@ -409,11 +409,14 @@ const assert = (cond, message) => { if (!cond) throw new Error(message); };
   const source = await mount();
   const rows = byClass(source.section, "SKV_paneItem");
   const labels = rows.map((n) => n.props.children[0].props.children);
-  check("source mode lists 插件自带 + provider names with counts", () => {
-    assert(labels.includes("插件自带"), "plugin-provided source row missing: " + JSON.stringify(labels));
-    assert(labels.includes("filesystem") && labels.includes("nested"), "provider rows missing: " + JSON.stringify(labels));
+  check("source mode groups by skill root and plugin package, not by provider", () => {
+    // 来源维度的语义是「这个技能是谁带来的、放在哪」，不是技术实现（provider）。
+    assert(labels.includes("dsh-badge"), "plugin-owned row must name the package: " + JSON.stringify(labels));
+    assert(labels.includes("DSH skills"), "user-dsh row missing: " + JSON.stringify(labels));
+    assert(labels.includes("公共 Agent"), "user-agents row missing: " + JSON.stringify(labels));
+    assert(!labels.includes("filesystem"), "provider names must not leak into the source dimension: " + JSON.stringify(labels));
   });
-  const fsRow = rows.find((n) => n.props.children[0].props.children === "filesystem");
+  const fsRow = rows.find((n) => n.props.children[0].props.children === "DSH skills");
   fsRow.props.onClick();
   const filtered = await mount();
   const names = byClass(filtered.section, "SKV_card").map((c) => c.props["data-skill-name"]);
@@ -574,7 +577,7 @@ const assert = (cond, message) => { if (!cond) throw new Error(message); };
     const dirRelRpc = {
       ...rpc,
       listSkills: async () => ({
-        skills: [{ name: "alpha", description: "A", provider: "filesystem", source: "user", enabled: true, rel: "alpha", scope: { kind: "global" } }]
+        skills: [{ name: "alpha", description: "A", provider: "filesystem", source: "user-dsh", enabled: true, rel: "alpha", scope: { kind: "global" } }]
       }),
       loadContent: async () => ({
         name: "alpha",
@@ -1043,22 +1046,79 @@ const renderChild = (element) => {
 // ── 7. 页头在两种页签下不许跳动 + 切页签淡入 ────────────────────────────
 {
   const cssText = styleTags.map((tag) => String(tag.textContent ?? "")).join(String.fromCharCode(10));
-  check("skills / mcp 共用同一套页面外壳（页头不会因为切页签而位移）", () => {
-    assert(cssText.includes(".SKV_page[data-tab=skills],.SKV_page[data-tab=mcp]{"), "shared page shell missing");
-    // 选择器共用意味着「同一个 body」：两种页签的页面盒子只能有一份
-    assert(cssText.includes("padding:18px 0 0;overflow:hidden"), "shared shell body missing");
-    assert(!/\.SKV_page\[data-tab=skills\]\{/.test(cssText.replace(/\.SKV_page\[data-tab=skills\],\.SKV_page\[data-tab=mcp\]\{/g, "")), "a standalone skills shell came back");
+  // 断言按**语义**写，不按具体的选择器拼写写：外壳选择器由 TABS_FULL 变量拼出来，
+  // 三个页签（skills / discover / mcp）共用同一条规则。锁死字面量会让「新增一个
+  // 页签」这种正常演进变成测试失败，而真正要守的是「三个页签外壳一致」这件事。
+  const shellTabs = ["skills", "discover", "mcp"];
+  check("skills / discover / mcp 共用同一套页面外壳（页头不会因为切页签而位移）", () => {
+    // 找到那条 align-items:stretch 的整宽外壳规则，断言它同时覆盖三个页签。
+    const shellRule = cssText.split("}").find((rule) => rule.includes("align-items:stretch") && rule.includes("overflow:hidden"));
+    assert(shellRule !== undefined, "shared page shell missing");
+    const selector = shellRule.split("{")[0];
+    for (const tab of shellTabs) {
+      assert(selector.includes("[data-tab=" + tab + "]"), "shell selector must cover the " + tab + " tab: " + selector);
+    }
+    assert(shellRule.includes("padding:18px 0 0"), "shared shell body missing");
   });
-  check("页头与页签的内边距/间距两种页签一致", () => {
-    assert(cssText.includes(".SKV_page[data-tab=skills]>.SKV_pageTop,.SKV_page[data-tab=mcp]>.SKV_pageTop{padding:0 clamp(20px,3vw,40px)}"), "pageTop padding split across tabs");
-    assert(cssText.includes(".SKV_page[data-tab=skills]>.SKV_tabs,.SKV_page[data-tab=mcp]>.SKV_tabs{gap:22px;padding:0 clamp(20px,3vw,40px)}"), "tabs gap/padding split across tabs");
+  /**
+   * 回归守卫：`TABS_FULL + ">.child"` 这种写法会把 `>` 只挂到最后一个页签上
+   * （逗号只分隔选择器），导致技能页/MCP 页拿不到通栏内边距、发现页独有——
+   * 用户看到的是「切换页签时页头宽度跳动」。这条测试逐页签检查子选择器。
+   */
+  check("每个页签各自持有 pageTop / tabs 的子选择器（不是只挂在最后一个）", () => {
+    for (const tab of shellTabs) {
+      assert(
+        cssText.includes(".SKV_page[data-tab=" + tab + "]>.SKV_pageTop"),
+        tab + " 缺少自己的 >.SKV_pageTop 规则"
+      );
+      assert(
+        cssText.includes(".SKV_page[data-tab=" + tab + "]>.SKV_tabs"),
+        tab + " 缺少自己的 >.SKV_tabs 规则"
+      );
+    }
+    // 反例：三个页签共享同一个 > 子选择器（旧 bug 的形态）不允许存在。
+    assert(
+      !/\[data-tab=skills\],\.SKV_page\[data-tab=mcp\],\.SKV_page\[data-tab=discover\]>/.test(cssText),
+      "逗号分隔的页签列表后面直接接 > 会把子选择器只绑到最后一个页签"
+    );
   });
-  check("MCP 正文自己居中并滚动，不吃页面的 align-items", () => {
-    assert(/\.SKV_page\[data-tab=mcp\]>\.MCP_section\{[^}]*margin:0 auto[^}]*overflow-y:auto/.test(cssText), "mcp body must center and scroll on its own");
+
+  check("页头与页签的内边距/间距三个页签一致", () => {
+    const pageTopRule = cssText.split("}").find((rule) => rule.includes("SKV_pageTop{padding:0 clamp(20px,3vw,40px)"));
+    assert(pageTopRule !== undefined, "pageTop padding rule missing");
+    const pageTopSelector = pageTopRule.split("{")[0];
+    for (const tab of shellTabs) {
+      assert(pageTopSelector.includes("[data-tab=" + tab + "]"), "pageTop padding must cover " + tab);
+    }
+    const tabsRule = cssText.split("}").find((rule) => rule.includes("SKV_tabs{gap:22px"));
+    assert(tabsRule !== undefined, "tabs gap rule missing");
+    const tabsSelector = tabsRule.split("{")[0];
+    for (const tab of shellTabs) {
+      assert(tabsSelector.includes("[data-tab=" + tab + "]"), "tabs gap/padding must cover " + tab);
+    }
+  });
+  check("MCP 与发现页正文各自居中并滚动，不吃页面的 align-items", () => {
+    // 不能用 split("}") 切规则：clamp()/color-mix() 里的括号会让粗切分错位。
+    // 直接用选择器锚定，截到该规则的结束大括号。
+    // 两个页签的正文规则可能合成一条组合选择器（[mcp]>.MCP_section,[discover]>.DSC_section{...}），
+    // 所以按「选择器包含该页签 + 该正文类」定位，而不是要求选择器以它结尾。
+    for (const [tab, body] of [["mcp", "MCP_section"], ["discover", "DSC_section"]]) {
+      const at = cssText.indexOf("[data-tab=" + tab + "]>." + body);
+      assert(at !== -1, tab + " body selector missing");
+      const brace = cssText.indexOf("{", at);
+      const bodyText = cssText.slice(brace, cssText.indexOf("}", brace) + 1);
+      assert(bodyText.includes("margin:0 auto"), tab + " body must center itself: " + bodyText);
+      assert(bodyText.includes("overflow-y:auto"), tab + " body must scroll itself: " + bodyText);
+    }
   });
   check("切页签有淡入动画，且 reduced-motion 会关掉它", () => {
     assert(cssText.includes("@keyframes skvTabIn"), "fade keyframes missing");
-    assert(/\.SKV_page\[data-tab\]>\.SKV_section,\.SKV_page\[data-tab\]>\.MCP_section\{animation:skvTabIn/.test(cssText), "fade not applied to the tab bodies");
+    const fadeRule = cssText.split("}").find((rule) => rule.includes("animation:skvTabIn"));
+    assert(fadeRule !== undefined, "fade not applied to the tab bodies");
+    const fadeSelector = fadeRule.split("{")[0];
+    assert(fadeSelector.includes("SKV_section"), "fade must cover the skills body");
+    assert(fadeSelector.includes("MCP_section"), "fade must cover the MCP body");
+    assert(fadeSelector.includes("DSC_section"), "fade must cover the discover body");
     assert(cssText.includes(".SKV_page *{animation-duration:.001ms!important"), "reduced-motion must cover the page-level fade");
   });
 }

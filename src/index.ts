@@ -38,6 +38,10 @@ import {
 } from "./profiles.js";
 import { installTargetForDeclaredSpec, updateProfilePlugin } from "./updater.js";
 import { McpManagerGateway } from "./mcp/gateway.js";
+import { DiscoverService } from "./discover-service.js";
+import { loadState } from "./discover-store.js";
+import { attachProvenance } from "./discover-provenance.js";
+import type { SkillOrigin } from "./discover-types.js";
 import { ensureGlobalShim } from "./global-shim.js";
 import { MCP_MANIFEST } from "./mcp/wire.js";
 import { NestedSkillProvider, NESTED_SKILL_RANK, NESTED_PROVIDER_NAME } from "./provider.js";
@@ -69,6 +73,13 @@ const scopeSchema = z.object({
   label: z.string().optional()
 });
 
+const skillOriginSchema = z.object({
+  kind: z.enum(["repo", "clawhub", "skillsh", "lock", "market"]),
+  label: z.string(),
+  url: z.string().optional(),
+  commit: z.string().optional()
+});
+
 const skillSummarySchema = z.object({
   name: z.string(),
   description: z.string(),
@@ -81,7 +92,13 @@ const skillSummarySchema = z.object({
   scope: scopeSchema.optional(),
   groups: z.array(z.string()).optional(),
   rel: z.string().optional(),
-  pluginProvided: z.boolean()
+  pluginProvided: z.boolean(),
+  /** 来源归属：本插件装来的 / 锁文件 / 市场元数据；都没有时缺省。 */
+  origin: skillOriginSchema.optional(),
+  /** 插件自带技能所属的包名（勾选「显示插件技能」时用于标注归属）。 */
+  pluginOwner: z.string().optional(),
+  /** 该技能是否有「发现技能」安装记录（用于 UI 标注）。 */
+  installedFrom: z.enum(["repo", "clawhub", "skillsh"]).optional()
 });
 
 const groupRowSchema = z.object({
@@ -131,6 +148,137 @@ const applyUpdateResultSchema = z.object({
 });
 
 const listResultSchema = z.object({ skills: z.array(skillSummarySchema) });
+
+// ── 发现技能 wire 模式 ────────────────────────────────────────────────────
+//
+// 注意：这里的每个 object 都必须 `.strict()` 语义等价——typert 的 strict codec
+// 会在边界上 `parse()`，多余字段会让整次调用失败。因此宿主方法返回前只投影
+// 下面声明的字段，绝不把内部对象原样吐出去。
+
+const repositorySkillSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  path: z.string(),
+  valid: z.boolean(),
+  reason: z.string().optional()
+});
+
+const repositorySchema = z.object({
+  id: z.string(),
+  url: z.string(),
+  owner: z.string(),
+  name: z.string(),
+  ref: z.string(),
+  subdirectory: z.string(),
+  includeHidden: z.boolean().optional(),
+  commit: z.string().nullable(),
+  scannedAt: z.string().nullable(),
+  error: z.string().optional(),
+  skills: z.array(repositorySkillSchema)
+});
+
+const discoverStateResultSchema = z.object({
+  repositories: z.array(repositorySchema),
+  installs: z.array(
+    z.object({
+      id: z.string(),
+      kind: z.enum(["repo", "clawhub", "skillsh"]),
+      origin: z.string(),
+      name: z.string(),
+      root: z.enum(["dsh", "agents", "workspace"]),
+      workspace: z.string().optional(),
+      installedAt: z.string()
+    })
+  )
+});
+
+const installResultSchema = z.object({
+  name: z.string(),
+  root: z.enum(["dsh", "agents", "workspace"]),
+  workspace: z.string().optional(),
+  path: z.string(),
+  updated: z.boolean(),
+  warnings: z.array(z.string())
+});
+
+const catalogItemSchema = z.object({
+  kind: z.enum(["clawhub", "skillsh"]),
+  /** 主键：clawhub 为 `owner/slug`，skillsh 为 `source/skillId`。 */
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  /** clawhub 拆开的定位字段；skillsh 用 source + skillId。 */
+  owner: z.string().optional(),
+  slug: z.string().optional(),
+  source: z.string().optional(),
+  skillId: z.string().optional(),
+  installs: z.number().optional(),
+  downloads: z.number().optional(),
+  stars: z.number().optional()
+});
+
+const catalogListResultSchema = z.object({
+  items: z.array(catalogItemSchema),
+  nextCursor: z.string().nullable()
+});
+
+const catalogDetailResultSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  body: z.string(),
+  origin: z.string(),
+  descriptionTokens: z.number(),
+  bodyTokens: z.number()
+});
+
+const repoAddPayloadSchema = z.object({
+  url: z.string(),
+  ref: z.string().optional(),
+  subdirectory: z.string().optional(),
+  includeHidden: z.boolean().optional()
+});
+
+const repoInstallPayloadSchema = z.object({
+  repoId: z.string(),
+  skillPath: z.string(),
+  root: z.enum(["dsh", "agents", "workspace"]).optional(),
+  workspace: z.string().optional()
+});
+
+const repoIdPayloadSchema = z.object({ id: z.string() });
+
+const catalogSearchPayloadSchema = z.object({
+  kind: z.enum(["clawhub", "skillsh"]),
+  query: z.string(),
+  cursor: z.string().optional()
+});
+
+const catalogListPayloadSchema = z.object({
+  kind: z.enum(["clawhub", "skillsh"]),
+  cursor: z.string().optional()
+});
+
+const catalogIdentityPayloadSchema = z.object({
+  kind: z.enum(["clawhub", "skillsh"]),
+  owner: z.string().optional(),
+  slug: z.string().optional(),
+  source: z.string().optional(),
+  skillId: z.string().optional()
+});
+
+const catalogInstallPayloadSchema = z.object({
+  kind: z.enum(["clawhub", "skillsh"]),
+  owner: z.string().optional(),
+  slug: z.string().optional(),
+  source: z.string().optional(),
+  skillId: z.string().optional(),
+  root: z.enum(["dsh", "agents", "workspace"]).optional(),
+  workspace: z.string().optional()
+});
+
+const uninstallPayloadSchema = z.object({ id: z.string() });
+
+const removedResultSchema = z.object({ removed: z.boolean() });
 
 const openFolderResultSchema = z.object({
   opened: z.string(),
@@ -370,6 +518,115 @@ const MANIFEST = {
         { name: "payload", wire: "payload", source: "json", codec: strictCodec("dsh-skill-mcp-panel#AddPayload", addPayloadSchema) }
       ],
       result: strictCodec("dsh-skill-mcp-panel#AddResult", addResultSchema)
+    },
+    // ── 发现技能 ────────────────────────────────────────────────────────
+    {
+      id: "dsh-skill-mcp-panel#skillsViewer/discoverState",
+      service: "skillsViewer",
+      namespace: "skillsViewer",
+      method: "discoverState",
+      invocation: { kind: "direct" },
+      parameters: [],
+      result: strictCodec("dsh-skill-mcp-panel#DiscoverStateResult", discoverStateResultSchema)
+    },
+    {
+      id: "dsh-skill-mcp-panel#skillsViewer/addRepository",
+      service: "skillsViewer",
+      namespace: "skillsViewer",
+      method: "addRepository",
+      invocation: { kind: "direct" },
+      parameters: [
+        { name: "payload", wire: "payload", source: "json", codec: strictCodec("dsh-skill-mcp-panel#RepoAddPayload", repoAddPayloadSchema) }
+      ],
+      result: strictCodec("dsh-skill-mcp-panel#Repository", repositorySchema)
+    },
+    {
+      id: "dsh-skill-mcp-panel#skillsViewer/refreshRepository",
+      service: "skillsViewer",
+      namespace: "skillsViewer",
+      method: "refreshRepository",
+      invocation: { kind: "direct" },
+      parameters: [
+        { name: "payload", wire: "payload", source: "json", codec: strictCodec("dsh-skill-mcp-panel#RepoIdPayload", repoIdPayloadSchema) }
+      ],
+      result: strictCodec("dsh-skill-mcp-panel#Repository", repositorySchema)
+    },
+    {
+      id: "dsh-skill-mcp-panel#skillsViewer/removeRepository",
+      service: "skillsViewer",
+      namespace: "skillsViewer",
+      method: "removeRepository",
+      invocation: { kind: "direct" },
+      parameters: [
+        { name: "payload", wire: "payload", source: "json", codec: strictCodec("dsh-skill-mcp-panel#RepoIdPayload", repoIdPayloadSchema) }
+      ],
+      result: strictCodec("dsh-skill-mcp-panel#RemovedResult", removedResultSchema)
+    },
+    {
+      id: "dsh-skill-mcp-panel#skillsViewer/installRepositorySkill",
+      service: "skillsViewer",
+      namespace: "skillsViewer",
+      method: "installRepositorySkill",
+      invocation: { kind: "direct" },
+      parameters: [
+        { name: "payload", wire: "payload", source: "json", codec: strictCodec("dsh-skill-mcp-panel#RepoInstallPayload", repoInstallPayloadSchema) }
+      ],
+      result: strictCodec("dsh-skill-mcp-panel#InstallResult", installResultSchema)
+    },
+    {
+      id: "dsh-skill-mcp-panel#skillsViewer/searchCatalog",
+      service: "skillsViewer",
+      namespace: "skillsViewer",
+      method: "searchCatalog",
+      invocation: { kind: "direct" },
+      parameters: [
+        { name: "payload", wire: "payload", source: "json", codec: strictCodec("dsh-skill-mcp-panel#CatalogSearchPayload", catalogSearchPayloadSchema) }
+      ],
+      result: strictCodec("dsh-skill-mcp-panel#CatalogListResult", catalogListResultSchema)
+    },
+    {
+      id: "dsh-skill-mcp-panel#skillsViewer/listCatalog",
+      service: "skillsViewer",
+      namespace: "skillsViewer",
+      method: "listCatalog",
+      invocation: { kind: "direct" },
+      parameters: [
+        { name: "payload", wire: "payload", source: "json", codec: strictCodec("dsh-skill-mcp-panel#CatalogListPayload", catalogListPayloadSchema) }
+      ],
+      result: strictCodec("dsh-skill-mcp-panel#CatalogListResult", catalogListResultSchema)
+    },
+    {
+      id: "dsh-skill-mcp-panel#skillsViewer/catalogDetail",
+      service: "skillsViewer",
+      namespace: "skillsViewer",
+      method: "catalogDetail",
+      invocation: { kind: "direct" },
+      parameters: [
+        { name: "payload", wire: "payload", source: "json", codec: strictCodec("dsh-skill-mcp-panel#CatalogIdentityPayload", catalogIdentityPayloadSchema) }
+      ],
+      result: strictCodec("dsh-skill-mcp-panel#CatalogDetailResult", catalogDetailResultSchema)
+    },
+    {
+      id: "dsh-skill-mcp-panel#skillsViewer/installCatalogSkill",
+      service: "skillsViewer",
+      namespace: "skillsViewer",
+      method: "installCatalogSkill",
+      invocation: { kind: "direct" },
+      parameters: [
+        { name: "payload", wire: "payload", source: "json", codec: strictCodec("dsh-skill-mcp-panel#CatalogInstallPayload", catalogInstallPayloadSchema) }
+      ],
+      result: strictCodec("dsh-skill-mcp-panel#InstallResult", installResultSchema)
+    },
+    {
+      id: "dsh-skill-mcp-panel#skillsViewer/uninstallDiscoverSkill",
+      service: "skillsViewer",
+      namespace: "skillsViewer",
+      method: "uninstallDiscoverSkill",
+      invocation: { kind: "direct" },
+      parameters: [
+        { name: "payload", wire: "payload", source: "json", codec: strictCodec("dsh-skill-mcp-panel#UninstallPayload", uninstallPayloadSchema) }
+      ],
+      result: strictCodec("dsh-skill-mcp-panel#RemovedResult", removedResultSchema)
     }
   ],
   model: { services: [], events: [], objects: [] }
@@ -507,6 +764,41 @@ export class SkillsViewerGateway extends TypertRemoteService {
     return true;
   }
 
+  /**
+   * 插件自带技能属于哪个插件。
+   *
+   * 为什么需要：勾上「显示插件技能」后，列表里会混进一堆面板改不动的技能
+   * （cordis-plugin-development、dsh-badge、genui…），用户看不出它们是谁带来的、
+   * 为什么没有启停开关。标出归属包名，这一层困惑就消失了。
+   *
+   * 判定顺序（从最可靠到最兜底）：
+   *   1. 路径里的 `node_modules/<包名>/...`：插件随包发布的技能都落在这里；
+   *   2. 技能自带 `provider` 字段：某些提供方会用它标出宿主包名；
+   *   3. `source`（bundled / runtime）：只说明「随包/运行时」，给不出具体包。
+   *
+   * 返回 undefined 表示「确实判断不出来」——宁可空着，也不编一个包名。
+   */
+  pluginOwnerOf(skill: any): string | undefined {
+    const path = typeof skill.path === "string" ? skill.path.replaceAll("\\", "/") : "";
+    if (path !== "") {
+      // 取最后一个 node_modules 之后的包名；作用域包要连 @scope/name 一起取。
+      const marker = "/node_modules/";
+      const index = path.lastIndexOf(marker);
+      if (index !== -1) {
+        const rest = path.slice(index + marker.length);
+        const segments = rest.split("/").filter(Boolean);
+        if (segments.length > 0) {
+          if (segments[0].startsWith("@") && segments.length > 1) return segments[0] + "/" + segments[1];
+          return segments[0];
+        }
+      }
+    }
+    const provider = typeof skill.provider === "string" ? skill.provider.trim() : "";
+    // provider 常是包名的短名（dsh-office / dsh-badge），本身就是最好的答案。
+    if (provider !== "" && provider !== "filesystem" && provider !== NESTED_PROVIDER_NAME && provider !== "runtime") return provider;
+    return undefined;
+  }
+
   /** 用户根与所有已知工作区里的全部文件级条目。 */
   async fileEntriesAll() {
     return collectSkillEntries(await this.allRoots());
@@ -601,6 +893,7 @@ export class SkillsViewerGateway extends TypertRemoteService {
         scope: { kind: "global" },
         groups: groupsForSkill(groupMap, "global", skill.name),
         pluginProvided: this.isPluginProvided(skill, roots),
+        ...(this.isPluginProvided(skill, roots) ? { pluginOwner: this.pluginOwnerOf(skill) } : {}),
         ...(relByKey.get(skill.name + "\u0000global") ? { rel: relByKey.get(skill.name + "\u0000global") } : {})
       });
       seen.add(seenKey(skill.name, "global"));
@@ -624,6 +917,63 @@ export class SkillsViewerGateway extends TypertRemoteService {
         pluginProvided: false,
         ...(entry.rel ? { rel: entry.rel } : {})
       });
+    }
+
+    // ── 来源归属 ───────────────────────────────────────────────────────────
+    // 每行都需要知道「技能文件实际在哪个根、哪个文件」，才能读锁文件与市场
+    // 元数据。文件扫描结果按（名称, 作用域）建索引，注册表行也能查到自己的
+    // 文件位置（relByKey 只能给 rel，给不了根路径）。
+    const { dshHome, agentsHome } = this.homes();
+    const rootPathOfEntry = (entry: any) => {
+      switch (entry.source) {
+        case "user-dsh":
+          return join(dshHome, "skills");
+        case "user-agents":
+          return join(agentsHome, "skills");
+        case "project-dsh":
+          return entry.projectRoot === undefined ? undefined : join(entry.projectRoot, ".dsh", "skills");
+        case "project-agents":
+          return entry.projectRoot === undefined ? undefined : join(entry.projectRoot, ".agents", "skills");
+        default:
+          return undefined;
+      }
+    };
+    const locationByKey = new Map<string, { rootPath: string; filePath: string; workspace?: string }>();
+    for (const entry of fileEntries) {
+      const rootPath = rootPathOfEntry(entry);
+      if (rootPath === undefined) continue;
+      locationByKey.set(seenKey(entry.name, entry.projectRoot ?? "global"), {
+        rootPath,
+        filePath: entry.file,
+        ...(entry.projectRoot === undefined ? {} : { workspace: entry.projectRoot })
+      });
+    }
+
+    let originOf: ((input: { rootPath: string; workspace?: string; name: string }) => SkillOrigin | undefined) | undefined;
+    try {
+      originOf = await this.discover().originLookup();
+    } catch {
+      // 状态文件不可读：来源归属整体降级为「只有根归属」，不影响技能列表。
+      originOf = undefined;
+    }
+
+    const rows = skills.map((skill) => {
+      const location = locationByKey.get(seenKey(skill.name, skill.scope?.kind === "workspace" ? skill.scope.path : "global"));
+      const installOrigin = location === undefined || originOf === undefined
+        ? undefined
+        : originOf({ rootPath: location.rootPath, workspace: location.workspace, name: skill.name });
+      return {
+        name: skill.name,
+        rootPath: location?.rootPath,
+        filePath: location?.filePath,
+        installOrigin
+      };
+    });
+    await attachProvenance(rows as any);
+    for (let index = 0; index < skills.length; index += 1) {
+      const row: any = rows[index];
+      if (row.origin !== undefined) skills[index].origin = row.origin;
+      if (row.installOrigin !== undefined) skills[index].installedFrom = row.installOrigin.kind;
     }
     return { skills };
   }
@@ -1031,6 +1381,166 @@ export class SkillsViewerGateway extends TypertRemoteService {
       }
     }
     return { results };
+  }
+
+  // ── 发现技能（仓库订阅 / 目录搜索 / 安装 / 来源归属）──────────────────────
+
+  /**
+   * 惰性构造发现服务。
+   *
+   * 依赖用闭包注入而不是在构造函数里做，原因：网关实例化发生在 cordis 插件
+   * 装载早期，此时工作区枚举与 normalizeWorkspace 都还没被调用过；惰性化让
+   * 这些依赖只在真正用到「发现技能」时才求值，不影响技能页的启动路径。
+   */
+  private discoverRef: any;
+
+  discover(): any {
+    if (this.discoverRef === undefined) {
+      const gateway = this;
+      this.discoverRef = new DiscoverService({
+        dshHome: () => gateway.homes().dshHome,
+        agentsHome: () => gateway.homes().agentsHome,
+        normalizeWorkspace: (raw: string) => normalizeWorkspace(raw),
+        listWorkspaces: async () => (await gateway.workspaces()).workspaces,
+        skillExists: async (target: any, name: string) => {
+          const entries = await collectSkillEntries([{ path: target.path }]);
+          return entries.some((entry: any) => entry.name === name);
+        }
+      });
+    }
+    return this.discoverRef;
+  }
+
+  /** 投影一条仓库订阅成 wire 形状（只保留 schema 声明的字段）。 */
+  private projectRepository(repo: any) {
+    return {
+      id: repo.id,
+      url: repo.url,
+      owner: repo.owner,
+      name: repo.name,
+      ref: repo.ref,
+      subdirectory: repo.subdirectory,
+      ...(repo.includeHidden === true ? { includeHidden: true } : {}),
+      commit: repo.commit,
+      scannedAt: repo.scannedAt,
+      ...(repo.error === undefined ? {} : { error: repo.error }),
+      skills: repo.skills.map((skill: any) => ({
+        name: skill.name,
+        description: skill.description,
+        path: skill.path,
+        valid: skill.valid,
+        ...(skill.reason === undefined ? {} : { reason: skill.reason })
+      }))
+    };
+  }
+
+  /** 远程方法：发现技能的整体状态（订阅 + 安装记录）。 */
+  async discoverState() {
+    const state = await loadState(this.homes().dshHome);
+    return {
+      repositories: state.repositories.map((repo: any) => this.projectRepository(repo)),
+      installs: state.installs.map((install: any) => ({
+        id: install.id,
+        kind: install.kind,
+        origin: install.origin,
+        name: install.name,
+        root: install.root,
+        ...(install.workspace === undefined ? {} : { workspace: install.workspace }),
+        installedAt: install.installedAt
+      }))
+    };
+  }
+
+  /** 远程方法：添加仓库订阅并扫描。 */
+  async addRepository(payload: any) {
+    this.invalidateWorkspaces();
+    const repository = await this.discover().addRepository(payload);
+    return this.projectRepository(repository);
+  }
+
+  /** 远程方法：重新扫描仓库。 */
+  async refreshRepository(payload: any) {
+    this.invalidateWorkspaces();
+    const repository = await this.discover().refreshRepository(payload.id);
+    return this.projectRepository(repository);
+  }
+
+  /** 远程方法：移除仓库订阅。 */
+  async removeRepository(payload: any) {
+    return await this.discover().removeRepository(payload.id);
+  }
+
+  /** 远程方法：安装仓库里的技能。 */
+  async installRepositorySkill(payload: any) {
+    this.invalidateWorkspaces();
+    return await this.discover().installRepositorySkill(payload);
+  }
+
+  /** 远程方法：搜索第三方目录。 */
+  /**
+   * 目录榜单（目前只有 ClawHub 提供）。切到该子来源时自动加载，省掉「必须先打字」。
+   */
+  async listCatalog(payload: any) {
+    const result = await this.discover().listCatalog(payload?.kind, payload?.cursor);
+    const items = (result.items ?? []).map((item: any) => this.projectCatalogItem(payload?.kind === "skillsh" ? "skillsh" : "clawhub", item));
+    return { items, nextCursor: typeof result.nextCursor === "string" ? result.nextCursor : null };
+  }
+
+  async searchCatalog(payload: any) {
+    const result = await this.discover().searchCatalog(payload.kind, payload.query);
+    const items = (result.items ?? []).map((item: any) => this.projectCatalogItem(payload.kind, item));
+    return { items, nextCursor: null };
+  }
+
+  /** 远程方法：目录技能详情。 */
+  async catalogDetail(payload: any) {
+    const detail = await this.discover().catalogDetail(payload.kind, payload);
+    return {
+      name: detail.name,
+      description: detail.description,
+      body: detail.body,
+      origin: detail.origin,
+      descriptionTokens: detail.descriptionTokens,
+      bodyTokens: detail.bodyTokens
+    };
+  }
+
+  /** 远程方法：从目录安装技能。 */
+  async installCatalogSkill(payload: any) {
+    this.invalidateWorkspaces();
+    return await this.discover().installCatalogSkill(payload);
+  }
+
+  /** 远程方法：卸载「发现技能」装出来的技能。 */
+  async uninstallDiscoverSkill(payload: any) {
+    this.invalidateWorkspaces();
+    return await this.discover().uninstall(payload);
+  }
+
+  /** 目录条目 → wire 形状（两个目录的字段差异在这里归一）。 */
+  private projectCatalogItem(kind: string, item: any) {
+    if (kind === "clawhub") {
+      return {
+        kind: "clawhub" as const,
+        id: item.owner + "/" + item.slug,
+        name: item.displayName !== "" ? item.displayName : item.slug,
+        description: item.summary,
+        owner: item.owner,
+        slug: item.slug,
+        ...(item.stats?.installs === undefined ? {} : { installs: item.stats.installs }),
+        ...(item.stats?.downloads === undefined ? {} : { downloads: item.stats.downloads }),
+        ...(item.stats?.stars === undefined ? {} : { stars: item.stats.stars })
+      };
+    }
+    return {
+      kind: "skillsh" as const,
+      id: item.source + "/" + item.skillId,
+      name: item.name,
+      description: "",
+      source: item.source,
+      skillId: item.skillId,
+      ...(item.installs === undefined ? {} : { installs: item.installs })
+    };
   }
 
   /**
