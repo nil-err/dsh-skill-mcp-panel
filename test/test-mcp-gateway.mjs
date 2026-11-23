@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { McpManagerGateway } from "../lib/mcp/gateway.js";
+import { fiberPhaseOf, getLoaderEntry, waitForLoaderState } from "../lib/mcp/status.js";
 import { MCP_MANIFEST, mcpListResultSchema } from "../lib/mcp/wire.js";
 import { saveOAuthRecord } from "../lib/oauth.js";
 
@@ -14,6 +15,35 @@ function pass(name) {
   passed += 1;
   console.log("PASS  " + name);
 }
+
+// The profile entry's runtime ID is qualified; another tree can reuse its local ID.
+const profileTree = {};
+const localId = "panel-mcp-demo";
+const profileEntry = {
+  id: "include:" + localId,
+  options: { id: localId },
+  parent: { tree: profileTree },
+  fiber: { state: 2 },
+  disabled: false
+};
+const otherEntry = {
+  ...profileEntry,
+  id: localId,
+  parent: { tree: {} },
+  fiber: { state: 3 },
+  disabled: true
+};
+const scopedLoader = {
+  fiber: { entry: { parent: { tree: profileTree } } },
+  loader: { entries: () => [otherEntry, profileEntry] }
+};
+assert.equal(getLoaderEntry(scopedLoader, profileEntry.id), profileEntry);
+assert.equal(fiberPhaseOf(getLoaderEntry(scopedLoader, localId)?.fiber.state), "active");
+assert.equal(await waitForLoaderState(scopedLoader, localId, (entry) => entry?.disabled === false), true);
+scopedLoader.loader.entries = () => [otherEntry];
+assert.equal(getLoaderEntry(scopedLoader, localId), undefined);
+assert.equal(await waitForLoaderState(scopedLoader, localId, (entry) => entry === undefined), true);
+pass("loader resolves profile-local and qualified IDs without taking another tree's entry");
 
 const dir = await mkdtemp(join(tmpdir(), "dsh-panel-gateway-"));
 try {

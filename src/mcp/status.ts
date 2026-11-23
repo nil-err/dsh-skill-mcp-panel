@@ -21,10 +21,15 @@ export function fiberPhaseOf(state: number | undefined | null): McpFiberPhase {
 export function getLoaderEntry(ctx: any, id: string): any | undefined {
   const loader = (ctx as any).loader;
   if (loader === undefined || typeof loader.entries !== "function") return undefined;
+  // Patch rows use IDs local to the profile include; loader entry.id can include its ancestry.
+  const profileTree = ctx.fiber?.entry?.parent?.tree;
+  let localEntry;
   for (const entry of loader.entries()) {
-    if (entry.id === id) return entry;
+    const inProfile = profileTree !== undefined && entry.parent?.tree === profileTree;
+    if (entry.id === id && (inProfile || profileTree === undefined || id.includes(":"))) return entry;
+    if (inProfile && entry.options?.id === id) localEntry = entry;
   }
-  return undefined;
+  return localEntry;
 }
 
 export function loaderEntries(ctx: any): any[] {
